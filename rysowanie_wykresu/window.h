@@ -7,8 +7,9 @@
 #include <iostream>
 class Window
 {	
-	unsigned int width=1200, height=900;
+	
 public:
+	unsigned int width = 1200, height = 900;
 	Window();
 	void OnUpdate();
 	void Init();

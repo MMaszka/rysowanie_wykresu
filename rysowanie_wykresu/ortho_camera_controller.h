@@ -14,6 +14,6 @@ class  Ortho_camera_controller {
 public:
 	Ortho_camera_bounds Camera_bounds;
 	Ortho_camera_controller(float aspectRatio);
-	void On_update();
+	void OnUpdate();
 	glm::vec3 camera_position{};
 };
