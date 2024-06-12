@@ -66,4 +66,8 @@
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="function.fs" />
+    <None Include="function.vs" />
+  </ItemGroup>
 </Project>

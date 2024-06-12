@@ -8,10 +8,10 @@ struct Ortho_camera_bounds {
 
 class  Ortho_camera_controller {
 	float aspect_ratio{};
-	float zoom=1;
-	Ortho_camera Camera;
+	float zoom=100;
 	
 public:
+	Ortho_camera Camera;
 	Ortho_camera_bounds Camera_bounds;
 	Ortho_camera_controller(float aspectRatio);
 	void OnUpdate();

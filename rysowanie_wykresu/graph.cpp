@@ -1,8 +1,20 @@
 #include "graph.h"
+
 double ZOOM = 1;
-Graph::Graph():Camera_controller(16.0f/9.0f){
+Graph::Graph() :Camera_controller(16.0f / 9.0f){
 	window = std::make_unique<Window>();
+	FunShader = new Shader("function.vs", "function.fs");
+	zoom = &ZOOM;
 	glfwSetScrollCallback(window->window, scroll_callback);
+	AddNewFunction("aa");
+
+	function[0]->zoom = zoom;
+	function[0]->CreateBuffers();
+	function[0]->CalculateFunction(function[0]->function[0]);
+	function[0]->ModifyInstances();
+
+	FunShader->setMat4("view", Camera_controller.Camera.view);
+	FunShader->setMat4("projection", Camera_controller.Camera.projection);
 }
 
 void Graph::Run(){
@@ -14,6 +26,10 @@ void Graph::Run(){
 	
 		glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		FunShader->use();
+		function[0]->Draw();
+
 
 		MouseDisplacement();
 
@@ -35,10 +51,13 @@ void Graph::MouseDisplacement() {
 
 	mouse_last_posX = xpos;
 	mouse_last_posY = ypos;
-	std::cout << position.x<<"   " << position.y << "\n";
-
 }
+
+void Graph::AddNewFunction(std::string fun) {
+	function.push_back(new Function(fun));
+	function[0]->zoom = this->zoom;
+}
+
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
 	ZOOM += yoffset;
-	std::cout << ZOOM << "\n";
 }

@@ -30,7 +30,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath) {
     const char* vShaderCode = vertexCode.c_str();
     const char* fShaderCode = fragmentCode.c_str();
     // compile shaders
-    unsigned int vertex, fragment;
+    unsigned int vertex{}, fragment;
 
     vertex = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertex, 1, &vShaderCode, NULL);
@@ -76,8 +76,13 @@ void Shader::checkCompileErrors(GLuint shader, std::string type)
     }
 }
 
-void Shader::use() {
+void Shader::use() const{
     glUseProgram(ID);
+}
+
+void Shader::setMat4(const std::string& name, const glm::mat4& mat) const
+{
+    glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
 }
 
 Shader::~Shader()

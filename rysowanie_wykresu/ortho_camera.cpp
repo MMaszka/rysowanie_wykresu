@@ -2,8 +2,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 Ortho_camera::Ortho_camera(float left, float right, float top, float bottom)
-	: projection(glm::ortho(left, right, bottom, top, -1.0f, 1.0f)), view(1.0f)
+	: projection(glm::ortho(left, right, top, bottom, -10.0f, 10.0f)), view(1.0f)
 {
+	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -1.0f));
 	view_projection = projection * view;
 }
 
