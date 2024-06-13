@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="axis.cpp" />
     <ClCompile Include="function.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="ortho_camera.cpp" />
@@ -150,6 +151,7 @@
     <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="axis.h" />
     <ClInclude Include="function.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="ortho_camera.h" />
@@ -159,6 +161,8 @@
     <ClInclude Include="window.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="axis.fs" />
+    <None Include="axis.vs" />
     <None Include="function.fs" />
     <None Include="function.vs" />
   </ItemGroup>

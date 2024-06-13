@@ -42,6 +42,9 @@
     <ClCompile Include="function.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
+    <ClCompile Include="axis.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="window.h">
@@ -65,9 +68,14 @@
     <ClInclude Include="function.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
+    <ClInclude Include="axis.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="function.fs" />
     <None Include="function.vs" />
+    <None Include="axis.fs" />
+    <None Include="axis.vs" />
   </ItemGroup>
 </Project>
