@@ -13,27 +13,30 @@ Graph::Graph() :Camera_controller(16.0f / 9.0f){
 	function[0]->CalculateFunction(function[0]->function[0]);
 	function[0]->ModifyInstances();
 
+	FunShader->use();
 	FunShader->setMat4("view", Camera_controller.Camera.view);
 	FunShader->setMat4("projection", Camera_controller.Camera.projection);
+	
 }
 
 void Graph::Run(){
-	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_DEPTH_TEST);
+	glfwSwapInterval(1);
+
 	while (!glfwWindowShouldClose(window->window)) {
 		float time = (float)glfwGetTime();
 		float timestep = time - last_frame_time;
 		last_frame_time = time;
-	
+
 		glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		FunShader->use();
 		function[0]->Draw();
 
-
 		MouseDisplacement();
 
-		glfwSwapInterval(1);
+		
 		glfwSwapBuffers(window->window);
 		glfwPollEvents();
 	};

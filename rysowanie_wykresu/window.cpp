@@ -32,6 +32,7 @@ Window::Window() {
         std::cout << "Failed to initialize GLAD" << std::endl;
     }
 
-    glEnable(GL_CULL_FACE);
+    //glEnable(GL_CULL_FACE);
     glEnable(GL_MULTISAMPLE);
+    glViewport(0, 0, width, height);
 }

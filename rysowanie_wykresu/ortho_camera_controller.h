@@ -2,13 +2,13 @@
 #include "ortho_camera.h"
 
 struct Ortho_camera_bounds {
-	float left{}, right{};
-	float top{}, bottom{};
+	float left, right;
+	float bottom, top;
 };
 
 class  Ortho_camera_controller {
-	float aspect_ratio{};
-	float zoom=100;
+	float aspect_ratio{1};
+	float zoom=1;
 	
 public:
 	Ortho_camera Camera;

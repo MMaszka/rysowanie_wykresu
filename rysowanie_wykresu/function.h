@@ -12,13 +12,11 @@
 
 class Function {
 private:
-	float vertices[18]
-	{	-0.5f, -0.5f, 0.0f,		1.0f, 1.0f, 1.0f ,
-		0.5f, -0.5f, 0.0f,		1.0f, 1.0f, 1.0f ,
-		0.0f, 0.5f, 0.0f,		1.0f, 1.0f, 1.0f 
+	float vertices[6]
+	{	-0.5f, -0.5f, 0.0f,		1.0f, 1.0f, 1.0f 
 	
 	};
-	unsigned int indices[3]{ 0 , 1 , 2 };
+	unsigned int indices[1]{ 0 };
 	int vertices_size{6}, indices_size{1};
 
 	unsigned int VAO{}, VBO{}, EBO{}, sizeEBO{}, sizeVAO{}, buffer{};
@@ -37,6 +35,7 @@ public:
 	void BreakDownFunction(std::string fun);
 	void CalculateFunction(int* fun);
 	void Draw();
+
 
 	~Function();
 };

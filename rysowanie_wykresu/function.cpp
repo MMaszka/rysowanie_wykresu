@@ -30,13 +30,13 @@ void Function::BreakDownFunction(std::string fun) {
 void Function::CalculateFunction(int* fun) {
 	double y{}, x{};
 	int point_number = 0;
-	double interval = 2.0 / number_of_points; // distance between points
+	double interval = 4.0 / number_of_points; // distance between points
 	for (int i = 0; i < number_of_points; i++) {
 		glm::mat4 point = glm::mat4(1.0f);
 		x = (interval * (i * *zoom - number_of_points / 2 * *zoom) / *zoom); // caluculate x position - depends on camera position and zoom
-		//y = (x / *zoom * sin(1 / (x / *zoom))) * *zoom;
-		y = x;
-		point = glm::translate(point, glm::vec3(x, y, 1.0f));
+		y = (x  * sin(1 /x ));
+		//y = x*x*x;
+		point = glm::translate(point, glm::vec3(x, y, 0.0f));
 
 		pointMatrices[point_number++] = point; // put y into instance matrix
 		if (!(i % 100))std::cout << x << " " << y << "\n";
