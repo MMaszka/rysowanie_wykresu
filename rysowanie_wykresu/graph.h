@@ -21,9 +21,12 @@ public:
 	std::unique_ptr<Window> window;
 	float mouse_last_posX, mouse_last_posY;
 	void MouseDisplacement();
+	double lastZoom{1};
+	void OnZoomChange(glm::vec3 mousePos);
 
 	std::vector <Function*> function;
 	void AddNewFunction(std::string fun,App_info info);
+	
 	void EditFunction(int ID);
 	
 	Axis axis;

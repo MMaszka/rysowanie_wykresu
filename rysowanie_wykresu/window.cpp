@@ -36,3 +36,9 @@ Window::Window() {
     glEnable(GL_MULTISAMPLE);
     glViewport(0, 0, width, height);
 }
+
+void Window::OnResize() {
+    // update view port and basic app info
+    glfwGetFramebufferSize(window, app_info.width, app_info.height);
+    glViewport(0, 0, *app_info.width, *app_info.height);
+}
