@@ -139,6 +139,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Kalkulator wykresów\Kalkulator wykresów\conditioners.cpp" />
+    <ClCompile Include="..\..\Kalkulator wykresów\Kalkulator wykresów\converters.cpp" />
+    <ClCompile Include="..\..\Kalkulator wykresów\Kalkulator wykresów\convertIntoRPNIhneritance.cpp" />
+    <ClCompile Include="..\..\Kalkulator wykresów\Kalkulator wykresów\dataVerifiers.cpp" />
+    <ClCompile Include="..\..\Kalkulator wykresów\Kalkulator wykresów\function_Lampa.cpp" />
+    <ClCompile Include="..\..\Kalkulator wykresów\Kalkulator wykresów\shortenFunction.cpp" />
     <ClCompile Include="axis.cpp" />
     <ClCompile Include="function.cpp" />
     <ClCompile Include="input.cpp" />
@@ -151,6 +157,10 @@
     <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Kalkulator wykresów\Kalkulator wykresów\conditioners.h" />
+    <ClInclude Include="..\..\Kalkulator wykresów\Kalkulator wykresów\converters.h" />
+    <ClInclude Include="..\..\Kalkulator wykresów\Kalkulator wykresów\dataVerifiers.h" />
+    <ClInclude Include="..\..\Kalkulator wykresów\Kalkulator wykresów\function_Lampa.h" />
     <ClInclude Include="axis.h" />
     <ClInclude Include="function.h" />
     <ClInclude Include="input.h" />
