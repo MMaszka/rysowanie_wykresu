@@ -36,10 +36,22 @@ void Function::CalculateFunction(int* fun) {
 	double interval = 1.0 / number_of_points; // distance between points
 	for (int i = 0; i < number_of_points; i++) {
 		glm::mat4 point = glm::mat4(1.0f);
+<<<<<<< HEAD
 		x = (i*2*1.77-position.x*number_of_points-number_of_points)*interval; // caluculate x position - depends on camera position and zoom
 		y = (x  * sin(1 /x )) ;
 		//y = x*x*x;
 		point = glm::translate(point, glm::vec3(x+position.x,y+position.y, 0.0f));
+=======
+		x = (i*(*app_info.width/ float(*app_info.height))*2 / app_info.GetZoom() - position.x * number_of_points) * interval; // caluculate x position - depends on camera position and zoom
+		
+		y = ((x) * sin(1 / (x)));
+
+		//y = x*x*x;
+		point = glm::translate(point, glm::vec3(
+			(x  + position.x) * app_info.GetZoom()+0.5,
+			(y  + position.y) * app_info.GetZoom(),
+			0.0f));
+>>>>>>> 38fda81def5fc158bd343a8363746b4e11f06388
 
 		pointMatrices[point_number++] = point; // put y into instance matrix
 	}

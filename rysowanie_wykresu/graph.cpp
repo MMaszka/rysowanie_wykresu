@@ -20,7 +20,11 @@ void Graph::Run(){
 	//glEnable(GL_DEPTH_TEST);
 	glfwSwapInterval(1);
 
+<<<<<<< HEAD
 	while (!glfwWindowShouldClose(window->window)) {
+=======
+	while (!glfwWindowShouldClose(window->window)) { // main window loop
+>>>>>>> 38fda81def5fc158bd343a8363746b4e11f06388
 		float time = (float)glfwGetTime();
 		float timestep = time - last_frame_time;
 		last_frame_time = time;
@@ -29,14 +33,26 @@ void Graph::Run(){
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		MouseDisplacement();
 
+<<<<<<< HEAD
 		axis.Draw();
 
+=======
+
+		// - Axis
+		axis.cam_pos = -position * float(app_info.GetZoom()); 
+		axis.OnUpdate();
+		axis.Draw();
+		
+		
+		// - Functions
+>>>>>>> 38fda81def5fc158bd343a8363746b4e11f06388
 		FunShader->use();
 		function[0]->position = position;
 		function[0]->CalculateFunction(function[0]->function[0]);
 		function[0]->ModifyInstances();
 		function[0]->Draw();
 
+		
 		
 
 		
@@ -60,6 +76,11 @@ void Graph::MouseDisplacement() {
 
 	mouse_last_posX = xpos;
 	mouse_last_posY = ypos;
+<<<<<<< HEAD
+=======
+	// change camera position based on mouse position on mouse scroll
+	OnZoomChange(glm::vec3(*app_info.width/2-xpos, ypos-*app_info.height/2, 0.0)); 
+>>>>>>> 38fda81def5fc158bd343a8363746b4e11f06388
 }
 
 void Graph::AddNewFunction(std::string fun,App_info info) {
