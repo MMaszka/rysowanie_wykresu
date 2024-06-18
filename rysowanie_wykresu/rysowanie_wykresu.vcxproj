@@ -139,15 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="axis.cpp" />
-    <ClCompile Include="C:\Users\jakub\Desktop\Nie twój zasrany interes, cwelu\Studia\Materiały do nauki\Programowanie\Programowanie\Semestr II\Projekt\Kalkulator wykresów\Kalkulator wykresów\conditioners.cpp" />
-    <ClCompile Include="C:\Users\jakub\Desktop\Nie twój zasrany interes, cwelu\Studia\Materiały do nauki\Programowanie\Programowanie\Semestr II\Projekt\Kalkulator wykresów\Kalkulator wykresów\converters.cpp" />
-    <ClCompile Include="C:\Users\jakub\Desktop\Nie twój zasrany interes, cwelu\Studia\Materiały do nauki\Programowanie\Programowanie\Semestr II\Projekt\Kalkulator wykresów\Kalkulator wykresów\convertIntoRPNIhneritance.cpp" />
-    <ClCompile Include="C:\Users\jakub\Desktop\Nie twój zasrany interes, cwelu\Studia\Materiały do nauki\Programowanie\Programowanie\Semestr II\Projekt\Kalkulator wykresów\Kalkulator wykresów\dataVerifiers.cpp" />
-    <ClCompile Include="C:\Users\jakub\Desktop\Nie twój zasrany interes, cwelu\Studia\Materiały do nauki\Programowanie\Programowanie\Semestr II\Projekt\Kalkulator wykresów\Kalkulator wykresów\input.cpp" />
-    <ClCompile Include="C:\Users\jakub\Desktop\Nie twój zasrany interes, cwelu\Studia\Materiały do nauki\Programowanie\Programowanie\Semestr II\Projekt\Kalkulator wykresów\Kalkulator wykresów\shortenFunction.cpp" />
     <ClCompile Include="function.cpp" />
-    <ClCompile Include="input.cpp" />
     <ClCompile Include="ortho_camera.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="graph.cpp" />
@@ -155,20 +147,16 @@
     <ClCompile Include="ortho_camera_controller.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="window.cpp" />
+    <ClCompile Include="axis.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="axis.h" />
-    <ClInclude Include="C:\Users\jakub\Desktop\Nie twój zasrany interes, cwelu\Studia\Materiały do nauki\Programowanie\Programowanie\Semestr II\Projekt\Kalkulator wykresów\Kalkulator wykresów\conditioners.h" />
-    <ClInclude Include="C:\Users\jakub\Desktop\Nie twój zasrany interes, cwelu\Studia\Materiały do nauki\Programowanie\Programowanie\Semestr II\Projekt\Kalkulator wykresów\Kalkulator wykresów\converters.h" />
-    <ClInclude Include="C:\Users\jakub\Desktop\Nie twój zasrany interes, cwelu\Studia\Materiały do nauki\Programowanie\Programowanie\Semestr II\Projekt\Kalkulator wykresów\Kalkulator wykresów\dataVerifiers.h" />
-    <ClInclude Include="C:\Users\jakub\Desktop\Nie twój zasrany interes, cwelu\Studia\Materiały do nauki\Programowanie\Programowanie\Semestr II\Projekt\Kalkulator wykresów\Kalkulator wykresów\input.h" />
     <ClInclude Include="function.h" />
-    <ClInclude Include="input.h" />
     <ClInclude Include="ortho_camera.h" />
     <ClInclude Include="graph.h" />
     <ClInclude Include="ortho_camera_controller.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="window.h" />
+    <ClInclude Include="axis.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="axis.fs" />

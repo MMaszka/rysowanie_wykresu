@@ -21,9 +21,9 @@ class Axis {
 public:
 	App_info app_info = App_info{0,0,0};
 	Shader shader;
-
+	glm::vec3 cam_pos{};
 	Axis();
 	void Draw();
 	void CreateBuffers();
-
+	void OnUpdate();
 };
