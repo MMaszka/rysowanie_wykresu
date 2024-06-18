@@ -21,9 +21,6 @@
     <ClCompile Include="window.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="glad.c">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
     <ClCompile Include="graph.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
@@ -43,6 +40,27 @@
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
     <ClCompile Include="axis.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\jakub\Desktop\Nie twój zasrany interes, cwelu\Studia\Materiały do nauki\Programowanie\Programowanie\Semestr II\Projekt\Kalkulator wykresów\Kalkulator wykresów\conditioners.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\jakub\Desktop\Nie twój zasrany interes, cwelu\Studia\Materiały do nauki\Programowanie\Programowanie\Semestr II\Projekt\Kalkulator wykresów\Kalkulator wykresów\converters.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\jakub\Desktop\Nie twój zasrany interes, cwelu\Studia\Materiały do nauki\Programowanie\Programowanie\Semestr II\Projekt\Kalkulator wykresów\Kalkulator wykresów\convertIntoRPNIhneritance.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\jakub\Desktop\Nie twój zasrany interes, cwelu\Studia\Materiały do nauki\Programowanie\Programowanie\Semestr II\Projekt\Kalkulator wykresów\Kalkulator wykresów\dataVerifiers.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\jakub\Desktop\Nie twój zasrany interes, cwelu\Studia\Materiały do nauki\Programowanie\Programowanie\Semestr II\Projekt\Kalkulator wykresów\Kalkulator wykresów\input.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\jakub\Desktop\Nie twój zasrany interes, cwelu\Studia\Materiały do nauki\Programowanie\Programowanie\Semestr II\Projekt\Kalkulator wykresów\Kalkulator wykresów\shortenFunction.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="glad.c">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
   </ItemGroup>
@@ -69,6 +87,18 @@
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="axis.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\jakub\Desktop\Nie twój zasrany interes, cwelu\Studia\Materiały do nauki\Programowanie\Programowanie\Semestr II\Projekt\Kalkulator wykresów\Kalkulator wykresów\conditioners.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\jakub\Desktop\Nie twój zasrany interes, cwelu\Studia\Materiały do nauki\Programowanie\Programowanie\Semestr II\Projekt\Kalkulator wykresów\Kalkulator wykresów\converters.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\jakub\Desktop\Nie twój zasrany interes, cwelu\Studia\Materiały do nauki\Programowanie\Programowanie\Semestr II\Projekt\Kalkulator wykresów\Kalkulator wykresów\dataVerifiers.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\jakub\Desktop\Nie twój zasrany interes, cwelu\Studia\Materiały do nauki\Programowanie\Programowanie\Semestr II\Projekt\Kalkulator wykresów\Kalkulator wykresów\input.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
   </ItemGroup>

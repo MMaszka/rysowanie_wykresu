@@ -112,12 +112,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\jakub\Documents\Biblioteki do programowania\C++\glm 1.0.1;C:\Users\jakub\Documents\Biblioteki do programowania\C++\glad 4.0\include;C:\Users\jakub\Documents\Biblioteki do programowania\C++\glfw-3.4.bin.WIN64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\jakub\Documents\Biblioteki do programowania\C++\glfw-3.4.bin.WIN64\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -128,6 +130,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\jakub\Documents\Biblioteki do programowania\C++\glm 1.0.1;C:\Users\jakub\Documents\Biblioteki do programowania\C++\glad 4.0\include;C:\Users\jakub\Documents\Biblioteki do programowania\C++\glfw-3.4.bin.WIN64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -135,7 +138,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\jakub\Documents\Biblioteki do programowania\C++\glfw-3.4.bin.WIN64\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -147,9 +151,9 @@
     <ClCompile Include="C:\Users\jakub\Desktop\Nie twój zasrany interes, cwelu\Studia\Materiały do nauki\Programowanie\Programowanie\Semestr II\Projekt\Kalkulator wykresów\Kalkulator wykresów\input.cpp" />
     <ClCompile Include="C:\Users\jakub\Desktop\Nie twój zasrany interes, cwelu\Studia\Materiały do nauki\Programowanie\Programowanie\Semestr II\Projekt\Kalkulator wykresów\Kalkulator wykresów\shortenFunction.cpp" />
     <ClCompile Include="function.cpp" />
+    <ClCompile Include="glad.c" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="ortho_camera.cpp" />
-    <ClCompile Include="glad.c" />
     <ClCompile Include="graph.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ortho_camera_controller.cpp" />
