@@ -9,6 +9,7 @@
 
 #include "shader.h"
 #include "window.h"
+#include <thread>
 
 
 class Function {
@@ -39,3 +40,4 @@ public:
 
 	~Function();
 };
+void GetFunctionString(GLFWwindow* window,std::string* function, bool* finished);

@@ -23,6 +23,13 @@ Graph::Graph() :Camera_controller(12.0f / 9.0f,app_info),window(std::make_unique
 void Graph::Run(){
 	glfwSwapInterval(1); // fps limit
 
+	bool typing=false;
+
+
+	std::string StrFunction;
+	std::thread th1(GetFunctionString, window->window, &StrFunction, &typing);
+
+
 	while (!glfwWindowShouldClose(window->window)) { // main window loop
 		float time = (float)glfwGetTime();
 		float timestep = time - last_frame_time;
@@ -32,29 +39,36 @@ void Graph::Run(){
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		MouseDisplacement();
 
+		if(typing == true) {
+			typing = false;
+			AddNewFunction(StrFunction, app_info);
+		}
 
 		// - Axis
 		axis.cam_pos = -position * float(app_info.GetZoom()); 
 		axis.OnUpdate();
 		axis.Draw();
 		
-		
 		// - Functions
 		FunShader->use();
-		function[0]->position = position;
-		function[0]->CalculateFunction(function[0]->function[0]);
-		function[0]->ModifyInstances();
-		function[0]->Draw();
+		for (int i = 0; i < function.size(); i++) {
+			function[i]->position = position;
+			function[i]->CalculateFunction(function[i]->function[i]);
+			function[i]->ModifyInstances();
+			function[i]->Draw();
+		}
 
 		window->OnResize();
 		Camera_controller.OnUpdate();
 		FunShader->setMat4("projection", Camera_controller.Camera.projection);
 		
-		
 
 		glfwSwapBuffers(window->window);
 		glfwPollEvents();
 	};
+
+	th1.join();
+
 	glfwTerminate();
 }
 
@@ -72,7 +86,7 @@ void Graph::MouseDisplacement() {
 
 	mouse_last_posX = xpos;
 	mouse_last_posY = ypos;
-	// change camera position based on mouse position on mouse scroll
+	// on mouse scroll - change camera position based on mouse position
 	OnZoomChange(glm::vec3(*app_info.width/2-xpos, ypos-*app_info.height/2, 0.0)); 
 }
 

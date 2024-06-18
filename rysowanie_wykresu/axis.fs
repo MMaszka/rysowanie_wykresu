@@ -1,4 +1,4 @@
-#version 460 core
+#version 330 core
 
 out vec4 FragColor;
 
@@ -8,7 +8,7 @@ uniform int height;
 uniform float Zoom;
 uniform vec3 cam_pos; 
 
-uniform vec3 Line_color = vec3(0.2f,0.2f,0.2f);
+uniform vec3 Line_color = vec3(0.1f,0.1f,0.1f);
 
 
 
@@ -27,15 +27,12 @@ void main()
 {   
 
 double x = fract(Zoom/16);
-double zoom1 = (1+fract(x))*8;
-double zoom2 = (pow(2.0,float(x)-float(floor(x))))*8;
-
-double zoom = zoom2;
+double zoom = (pow(2.0,float(x)-float(floor(x))))*8;
 
 vec2 uv = vec2(pos.x,pos.y)+vec2(cam_pos.x/(width/float(height)),cam_pos.y);
 uv.x*=width/float(height);
 
-float line_thickness = float(zoom*zoom) / height / 4;
+float line_thickness = float(zoom*zoom) / height / 6;
 vec3 color = smoothstep(1.0 - line_thickness,1.0,grid(uv*float(zoom)))*line_col;
 
 FragColor = vec4(color,1.0f);

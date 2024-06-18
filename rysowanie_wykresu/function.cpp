@@ -39,9 +39,11 @@ void Function::CalculateFunction(int* fun) {
 		glm::mat4 point = glm::mat4(1.0f);
 		x = (i*(*app_info.width/ float(*app_info.height))*2 / app_info.GetZoom() - position.x * number_of_points) * interval; // caluculate x position - depends on camera position and zoom
 		
-		y = ((x) * sin(1 / (x)));
+		if(test=="aa") y = ((x)*sin(1 / (x)));
+		else if(test=="bb") y = x*x;
+		else if(test=="cc") y = log(x);
 
-		//y = x*x*x;
+
 		point = glm::translate(point, glm::vec3(
 			(x  + position.x) * app_info.GetZoom()+0.5,
 			(y  + position.y) * app_info.GetZoom(),
@@ -112,3 +114,13 @@ Function::~Function() {
 	}
 	delete[] pointMatrices;
 }
+
+void GetFunctionString(GLFWwindow* window, std::string* function,bool* finished) {
+	while (!glfwWindowShouldClose(window)) {
+		if (glfwGetKey(window, GLFW_KEY_SPACE)) {
+			std::cout << "wprowadz funkcje:";
+			std::cin >> *function;
+			*finished = true;
+		}
+	}
+};
