@@ -45,24 +45,6 @@
     <ClCompile Include="axis.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Kalkulator wykresów\Kalkulator wykresów\conditioners.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Kalkulator wykresów\Kalkulator wykresów\converters.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Kalkulator wykresów\Kalkulator wykresów\convertIntoRPNIhneritance.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Kalkulator wykresów\Kalkulator wykresów\dataVerifiers.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Kalkulator wykresów\Kalkulator wykresów\function_Lampa.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Kalkulator wykresów\Kalkulator wykresów\shortenFunction.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="window.h">
@@ -87,18 +69,6 @@
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="axis.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Kalkulator wykresów\Kalkulator wykresów\conditioners.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Kalkulator wykresów\Kalkulator wykresów\converters.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Kalkulator wykresów\Kalkulator wykresów\dataVerifiers.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Kalkulator wykresów\Kalkulator wykresów\function_Lampa.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
   </ItemGroup>
