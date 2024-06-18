@@ -161,6 +161,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="axis.h" />
+    <ClInclude Include="conditioners.h" />
+    <ClInclude Include="converters.h" />
+    <ClInclude Include="dataVerifiers.h" />
     <ClInclude Include="function.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="ortho_camera.h" />
