@@ -1,6 +1,6 @@
 #include <iostream>
 #include "graph.h"
-
+#include "Lampa.h"
 
 int main(){
 	std::unique_ptr<Graph> app = std::make_unique<Graph>();
@@ -8,7 +8,6 @@ int main(){
 	app->Run();
 
 	//test functions - Lampa
-	
 	//function f1("y = x");
 	//function f2("y = x + 1");
 	//function f3("y = 5x - 3");
@@ -32,4 +31,6 @@ int main(){
 	/*function f19("y = scn(x, x)");
 	function f20("f(x) = sin(root(abs(x), lg(scn(3, x))))");
 	function f21("f(x) = 4.5x/2(sin(1.5x + x^2) - root(x^3, 6561)) / arctg(cos(5/x^(3-log(15, x/2))))");*/
+
+	return 0;
 }

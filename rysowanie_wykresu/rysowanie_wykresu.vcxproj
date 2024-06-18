@@ -112,12 +112,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)\rysowanie_wykresu\dependencies\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\rysowanie_wykresu\dependencies\lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -128,6 +130,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)\rysowanie_wykresu\dependencies\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -135,7 +138,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\rysowanie_wykresu\dependencies\lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -143,13 +147,12 @@
     <ClCompile Include="..\..\Kalkulator wykresów\Kalkulator wykresów\converters.cpp" />
     <ClCompile Include="..\..\Kalkulator wykresów\Kalkulator wykresów\convertIntoRPNIhneritance.cpp" />
     <ClCompile Include="..\..\Kalkulator wykresów\Kalkulator wykresów\dataVerifiers.cpp" />
-    <ClCompile Include="..\..\Kalkulator wykresów\Kalkulator wykresów\function_Lampa.cpp" />
     <ClCompile Include="..\..\Kalkulator wykresów\Kalkulator wykresów\shortenFunction.cpp" />
     <ClCompile Include="axis.cpp" />
     <ClCompile Include="function.cpp" />
     <ClCompile Include="input.cpp" />
+    <ClCompile Include="Lampa.cpp" />
     <ClCompile Include="ortho_camera.cpp" />
-    <ClCompile Include="glad.c" />
     <ClCompile Include="graph.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ortho_camera_controller.cpp" />
@@ -157,13 +160,13 @@
     <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Kalkulator wykresów\Kalkulator wykresów\conditioners.h" />
     <ClInclude Include="..\..\Kalkulator wykresów\Kalkulator wykresów\converters.h" />
     <ClInclude Include="..\..\Kalkulator wykresów\Kalkulator wykresów\dataVerifiers.h" />
-    <ClInclude Include="..\..\Kalkulator wykresów\Kalkulator wykresów\function_Lampa.h" />
     <ClInclude Include="axis.h" />
+    <ClInclude Include="conditioners.h" />
     <ClInclude Include="function.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="Lampa.h" />
     <ClInclude Include="ortho_camera.h" />
     <ClInclude Include="graph.h" />
     <ClInclude Include="ortho_camera_controller.h" />
