@@ -7,9 +7,11 @@ class Ortho_camera {
 public:
 	Ortho_camera(float left, float right, float bottom, float top);
 	void SetProjection(float left, float right, float bottom, float top);
+	void RecalculateViewMatrix();
 	glm::vec3 position{0.0f,0.0f,0.0f};
 	glm::mat4 projection{1};
 	glm::mat4 view{1};
+	glm::mat4 view_projection{1};
 
 
 };
