@@ -1,5 +1,9 @@
 #include "function.h"
 #include "graph.h"
+#include <iostream>
+#include <string>
+#include <regex>
+#include <algorithm>
 
 Function::Function(std::string fun, App_info info):app_info(info){
 	test = fun;
@@ -19,7 +23,88 @@ Function::Function(std::string fun, App_info info):app_info(info){
 
 bool Function::CheckFunction(std::string fun) {
 
-	return true;
+	// letters in the input
+bool containsInvalidLetters(const std::string& str) {
+    std::regex valid_chars(R"((\d+|[xyz]|\+|\-|\*|\/|\^|\(|\)|\s|=|sin|cos|tan|log|sqrt|[\d.]+)+)");
+    return !std::regex_match(str, valid_chars);
+}
+
+// double symbols or multiple assignments
+bool containsDoubleSymbolsOrMultipleAssignments(const std::string& str) {
+    std::regex double_symbols_or_multiple_assignments(R"((\+\+|--|==|\*\*|//|\^\^|\(\()|(?:[xyz]=.*[xyz]=))");
+    return std::regex_search(str, double_symbols_or_multiple_assignments);
+}
+
+// Check for invalid function calls
+bool containsInvalidFunctionCalls(const std::string& str) {
+    std::regex function_calls(R"((sin|cos|tan|log|sqrt)\([xyz\d\+\-\*\/\^\(\)]+\))");
+    std::smatch match;
+    std::string temp_str = str;
+    while (std::regex_search(temp_str, match, function_calls)) {
+        temp_str = match.suffix().str();
+    }
+    return temp_str.find("sin") != std::string::npos || temp_str.find("cos") != std::string::npos ||
+           temp_str.find("tan") != std::string::npos || temp_str.find("log") != std::string::npos ||
+           temp_str.find("sqrt") != std::string::npos;
+}
+
+// Check for invalid operator sequences
+bool containsInvalidOperatorSequences(const std::string& str) {
+    std::regex invalid_operator_sequences(R"((\*/|/\*|\*\*|//|\^\^|\+\*|\+\-|\+\^|\+\+|\*\+|\*/|\*^|-\*|-\+|-\/|-\^|\/\+|\/\*|\/\-|\/\^|\^\+|\^\*|\^\/|\^\-|\*\(|\/\(|\+\())");
+    return std::regex_search(str, invalid_operator_sequences);
+}
+
+int main() {
+    std::string str;
+    std::cout << "Write something: " << std::endl;
+    std::getline(std::cin, str);
+
+    // Check for letters
+    if (containsInvalidLetters(str)) {
+        std::cout << "Error." << std::endl;
+        return 1;
+    }
+
+    // Check for double symbols or multiple assignments
+    if (containsDoubleSymbolsOrMultipleAssignments(str)) {
+        std::cout << "Error: Double symbols or multiple assignments." << std::endl;
+        return 1;
+    }
+
+    // Check for invalid function calls
+    if (containsInvalidFunctionCalls(str)) {
+        std::cout << "Error: Invalid function call." << std::endl;
+        return 1;
+    }
+
+    // Check for invalid operator sequences
+    if (containsInvalidOperatorSequences(str)) {
+        std::cout << "Error: Invalid operator sequence." << std::endl;
+        return 1;
+    }
+
+    // Remove spaces
+    str.erase(std::remove(str.begin(), str.end(), ' '), str.end());
+
+    // Check for parentheses
+    int parentheses_count = 0;
+    for (char ch : str) {
+        if (ch == '(') {
+            parentheses_count++;
+        } else if (ch == ')') {
+            parentheses_count--;
+        }
+        if (parentheses_count < 0) {
+            std::cout << "Error: Mismatched parentheses." << std::endl;
+            return 1;
+        }
+    }
+    if (parentheses_count > 0) {
+        std::cout << "Error: Mismatched parentheses." << std::endl;
+        return 1;
+    }
+
+    return 0;
 }
 
 void Function::BreakDownFunction(std::string fun) {
