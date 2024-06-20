@@ -11,6 +11,8 @@ class Graph {
 	Shader* FunShader; // shader for drawing points (function)
 public:
 	glm::vec3 position{};
+	glm::vec3 last_position{};
+
 	Graph();
 	void Run();
 	bool running=true;

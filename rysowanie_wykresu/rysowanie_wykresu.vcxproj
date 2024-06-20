@@ -139,18 +139,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="conditioners.cpp" />
+    <ClCompile Include="converters.cpp" />
+    <ClCompile Include="convertIntoRPNIhneritance.cpp" />
+    <ClCompile Include="dataVerifiers.cpp" />
+    <ClCompile Include="evaluateRPN.cpp" />
     <ClCompile Include="function.cpp" />
     <ClCompile Include="includes\glm\detail\glm.cpp" />
+    <ClCompile Include="input.cpp" />
     <ClCompile Include="ortho_camera.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="graph.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ortho_camera_controller.cpp" />
     <ClCompile Include="shader.cpp" />
+    <ClCompile Include="shortenFunction.cpp" />
+    <ClCompile Include="specialFunctions.cpp" />
     <ClCompile Include="window.cpp" />
     <ClCompile Include="axis.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="conditioners.h" />
+    <ClInclude Include="converters.h" />
+    <ClInclude Include="dataVerifiers.h" />
     <ClInclude Include="function.h" />
     <ClInclude Include="includes\glad\glad.h" />
     <ClInclude Include="includes\GLFW\glfw3.h" />
@@ -438,10 +449,12 @@
     <ClInclude Include="includes\glm\vec4.hpp" />
     <ClInclude Include="includes\glm\vector_relational.hpp" />
     <ClInclude Include="includes\KHR\khrplatform.h" />
+    <ClInclude Include="input.h" />
     <ClInclude Include="ortho_camera.h" />
     <ClInclude Include="graph.h" />
     <ClInclude Include="ortho_camera_controller.h" />
     <ClInclude Include="shader.h" />
+    <ClInclude Include="specialFunctions.h" />
     <ClInclude Include="window.h" />
     <ClInclude Include="axis.h" />
   </ItemGroup>

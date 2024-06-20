@@ -10,7 +10,6 @@ Graph::Graph() :Camera_controller(12.0f / 9.0f,app_info),window(std::make_unique
 	axis.app_info = app_info;
 
 	glfwSetScrollCallback(window->window, scroll_callback);
-	AddNewFunction("aa",app_info);// creates new functions
 
 	FunShader->use();
 	FunShader->setMat4("view", Camera_controller.Camera.view);
@@ -38,6 +37,15 @@ void Graph::Run(){
 		if (typing == true) {
 			typing = false;
 			AddNewFunction(StrFunction, app_info);
+
+			if (function[function.size() - 1]->IsCorrect == false)function.pop_back();
+
+			if (function.size() != 0) {
+				function[function.size() - 1]->position = position; // to optimalize!
+				function[function.size() - 1]->CalculateFunction(function[function.size() - 1]->functions[0]);
+				function[function.size() - 1]->ModifyInstances();
+
+			}
 		}
 
 		// - Axis
@@ -48,14 +56,20 @@ void Graph::Run(){
 		
 		// - Functions
 		FunShader->use();
+		// multithreading can be implemented here
+			if (last_position != position) { // position is also changed while zooming
+				for (int i = 0; i < function.size(); i++) {
+					function[i]->position = position;
+					function[i]->CalculateFunction(function[0]->functions[0]);
+					function[i]->ModifyInstances();
+				}
+			}
+		last_position = position;
+
 		for (int i = 0; i < function.size(); i++) {
-			function[i]->position = position;
-			function[i]->CalculateFunction(function[i]->function[i]);
-			function[i]->ModifyInstances();
+	
 			function[i]->Draw();
 		}
-		
-
 		window->OnResize();
 		Camera_controller.OnUpdate();
 		FunShader->setMat4("projection", Camera_controller.Camera.projection);
@@ -93,7 +107,7 @@ void Graph::AddNewFunction(std::string fun,App_info info) {
 }
 void Graph::OnZoomChange(glm::vec3 mousePos) {
 
-	if (lastZoom != *app_info.zoom + 1)position += (mousePos / float(app_info.GetZoom()) / 10000.0f) * float(*app_info.zoom - lastZoom);
+	if (lastZoom != *app_info.zoom)position += (mousePos / float(app_info.GetZoom()) / 10000.0f) * float(*app_info.zoom - lastZoom);
 	lastZoom = *app_info.zoom;
 }
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {

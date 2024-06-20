@@ -7,57 +7,62 @@
 
 Function::Function(std::string fun, App_info info):app_info(info){
 	test = fun;
-	if (CheckFunction(fun)) {
-		BreakDownFunction(fun);
+	
+	if (!CheckFunction(fun)) {
+		function funString(fun);
+		IsCorrect = true;
+		functions.push_back(fun);
+		glGenBuffers(1, &buffer);
+		glPointSize(2.5f);
+		CreateBuffers();
+		CalculateFunction(functions[0]);
+		ModifyInstances();
 
 	}
 	else {
-		std::cout << "Function did not pass check test";
+		std::cout << "Function did not pass check test\n";
 	}
-	glGenBuffers(1, &buffer);
-	glPointSize(2.5f);
-	CreateBuffers();
-	CalculateFunction(function[0]);
-	ModifyInstances();
 }
 
-bool Function::CheckFunction(std::string fun) {
+// --CHECK FUNCTION
 
-	// letters in the input
+
+// letters in the input
 bool containsInvalidLetters(const std::string& str) {
-    std::regex valid_chars(R"((\d+|[xyz]|\+|\-|\*|\/|\^|\(|\)|\s|=|sin|cos|tan|log|sqrt|[\d.]+)+)");
-    return !std::regex_match(str, valid_chars);
+	std::regex valid_chars(R"((\d+|[xyz]|\+|\-|\*|\/|\^|\(|\)|\s|=|sin|cos|tan|log|sqrt|[\d.]+)+)");
+	return !std::regex_match(str, valid_chars);
 }
 
 // double symbols or multiple assignments
 bool containsDoubleSymbolsOrMultipleAssignments(const std::string& str) {
-    std::regex double_symbols_or_multiple_assignments(R"((\+\+|--|==|\*\*|//|\^\^|\(\()|(?:[xyz]=.*[xyz]=))");
-    return std::regex_search(str, double_symbols_or_multiple_assignments);
+	std::regex double_symbols_or_multiple_assignments(R"((\+\+|--|==|\*\*|//|\^\^|\(\()|(?:[xyz]=.*[xyz]=))");
+	return std::regex_search(str, double_symbols_or_multiple_assignments);
 }
 
 // Check for invalid function calls
 bool containsInvalidFunctionCalls(const std::string& str) {
-    std::regex function_calls(R"((sin|cos|tan|log|sqrt)\([xyz\d\+\-\*\/\^\(\)]+\))");
-    std::smatch match;
-    std::string temp_str = str;
-    while (std::regex_search(temp_str, match, function_calls)) {
-        temp_str = match.suffix().str();
-    }
-    return temp_str.find("sin") != std::string::npos || temp_str.find("cos") != std::string::npos ||
-           temp_str.find("tan") != std::string::npos || temp_str.find("log") != std::string::npos ||
-           temp_str.find("sqrt") != std::string::npos;
+	std::regex function_calls(R"((sin|cos|tan|log|sqrt)\([xyz\d\+\-\*\/\^\(\)]+\))");
+	std::smatch match;
+	std::string temp_str = str;
+	while (std::regex_search(temp_str, match, function_calls)) {
+		temp_str = match.suffix().str();
+	}
+	return temp_str.find("sin") != std::string::npos || temp_str.find("cos") != std::string::npos ||
+		temp_str.find("tan") != std::string::npos || temp_str.find("log") != std::string::npos ||
+		temp_str.find("sqrt") != std::string::npos;
 }
 
 // Check for invalid operator sequences
 bool containsInvalidOperatorSequences(const std::string& str) {
-    std::regex invalid_operator_sequences(R"((\*/|/\*|\*\*|//|\^\^|\+\*|\+\-|\+\^|\+\+|\*\+|\*/|\*^|-\*|-\+|-\/|-\^|\/\+|\/\*|\/\-|\/\^|\^\+|\^\*|\^\/|\^\-|\*\(|\/\(|\+\())");
-    return std::regex_search(str, invalid_operator_sequences);
+	std::regex invalid_operator_sequences(R"((\*/|/\*|\*\*|//|\^\^|\+\*|\+\-|\+\^|\+\+|\*\+|\*/|\*^|-\*|-\+|-\/|-\^|\/\+|\/\*|\/\-|\/\^|\^\+|\^\*|\^\/|\^\-|\*\(|\/\(|\+\())");
+	return std::regex_search(str, invalid_operator_sequences);
 }
 
-int main() {
-    std::string str;
-    std::cout << "Write something: " << std::endl;
-    std::getline(std::cin, str);
+bool Function::CheckFunction(std::string fun) {
+
+	
+
+    std::string str=fun;
 
     // Check for letters
     if (containsInvalidLetters(str)) {
@@ -107,16 +112,8 @@ int main() {
     return 0;
 }
 
-void Function::BreakDownFunction(std::string fun) {
 
-	for (int i{}; i < 1; i++) {
-
-		function.push_back(new int(10));
-
-	}
-}
-
-void Function::CalculateFunction(int* fun) {
+void Function::CalculateFunction(std::string fun) {
 	double y{}, x{};
 	int point_number = 0;
 	double interval = 1.0 / number_of_points; // distance between points
@@ -124,9 +121,11 @@ void Function::CalculateFunction(int* fun) {
 		glm::mat4 point = glm::mat4(1.0f);
 
 		x = (i * (*app_info.width / float(*app_info.height)) * 2 / app_info.GetZoom() - position.x * number_of_points) * interval; // caluculate x position - depends on camera position and zoom
-		if (test == "aa") y = ((x)*sin(1 / (x)));
-		else if (test == "bb") y = x * x;
-		else if (test == "bb") y = x * x;
+		if (test == "1") y = ((x)*sin(1 / (x)));
+		else if (test == "2") y = x;
+		else if (test == "3") y = x * x;
+		else if (test == "4") y = x * x;
+		else y = 0;
 
 		point = glm::translate(point, glm::vec3(
 			(x  + position.x) * app_info.GetZoom()+0.5,
@@ -195,9 +194,6 @@ void Function::Draw() {
 	glDrawElementsInstanced(GL_POINTS, indices_size, GL_UNSIGNED_INT, 0, number_of_points);
 }
 Function::~Function() {
-	for (int i{}; i < function.size(); i++) {
-		delete function.at(i);
-	}
 	delete[] pointMatrices;
 }
 
