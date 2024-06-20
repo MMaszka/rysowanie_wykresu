@@ -3,7 +3,7 @@
 #include <vector>
 #include "conditioners.h"
 
-class relation { // dla przysz³ych relacji np. równania
+class relation { // dla przyszÂ³ych relacji np. rÃ³wnania
 public:
 	relation();
 	virtual void rel() = 0;
@@ -12,7 +12,6 @@ public:
 
 class function : virtual public relation {
 	std::string formula;
-	double x;
 public:
 	function(std::string formula);
 
