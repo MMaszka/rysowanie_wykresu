@@ -3,16 +3,17 @@
 #include "dataVerifiers.h"
 #include "converters.h"
 
-std::vector<std::string> inheritRPN(char s[], size_t l) {
+std::vector<std::string> inheritRPN(char s[], size_t l, bool letterOne) {
 	std::vector<char> operators; // dynamiczna tablica operatorów
 	std::string token; // ¿eton do zapisu ci¹gu znaków o tym samym typie
 	std::vector<std::string> argumentStack;
-	argumentStack = elementAnalysis(token, operators, argumentStack, s, l); // dynamiczna tablica zwrotu zapisu w ONP
+	bool isLetterOnce = letterOne;
+	argumentStack = elementAnalysis(token, operators, argumentStack, s, l, isLetterOnce); // dynamiczna tablica zwrotu zapisu w ONP
 	
 	return argumentStack;
 }
 
-std::vector<int> handleSpecialFunction(const std::string& token, std::vector<char>& operators, std::vector<std::string>& returnStack, char array[], size_t& i, size_t l) {
+std::vector<int> handleSpecialFunction(const std::string& token, std::vector<char>& operators, std::vector<std::string>& returnStack, char array[], size_t& i, size_t l, bool letterOne) {
 	std::vector<std::string> arguments; // tablica argumentów funkcji
 	int argCount = 0; // iloœæ zliczonych argumentów
 	std::vector<int> argumentsLengthArray;
@@ -75,7 +76,7 @@ std::vector<int> handleSpecialFunction(const std::string& token, std::vector<cha
 
 				char* argArray = convertStringArray(arg);
 				size_t sizeArgArray = arg.length();
-				std::vector<std::string> convertedArg = inheritRPN(argArray, sizeArgArray); // Konwersja na ONP argumentu
+				std::vector<std::string> convertedArg = inheritRPN(argArray, sizeArgArray, letterOne); // Konwersja na ONP argumentu
 
 				if (argCount == 1) {
 					size_t movingInt = moveArrayByDistance(argumentsLengthArray);
@@ -100,6 +101,7 @@ std::vector<int> handleSpecialFunction(const std::string& token, std::vector<cha
 		returnStack.push_back(arg);
 	}
 	returnStack.push_back(token);
+	returnStack.push_back(")");
 
 	return argumentsLengthArray;
 }

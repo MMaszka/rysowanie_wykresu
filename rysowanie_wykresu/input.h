@@ -12,21 +12,21 @@ public:
 
 class function : virtual public relation {
 	std::string formula;
-	long double x;
+	double x;
 public:
 	function(std::string formula);
 
 	std::string getFormula() const {
 		return formula;
 	}
-	long double getXVariable() const {
+	double getXVariable() const {
 		return x;
 	}
 
 	void rel() override;
 	void shortenFunction(const function& f);
 	std::vector<std::string> convertIntoRPN(char s[], size_t l);
-	long double evaluateRPN(const std::string& expression, long double x);
+	double evaluateRPN(const std::vector<std::string>& expression, double x);
 
 	virtual ~function();
 };

@@ -1,20 +1,23 @@
 #pragma once
 #define _USE_MATH_DEFINES
 #include <cmath>
+#include <iostream>
+#include <string>
 
-long double factorial(long double);
-long double root(long double, long double);
-long double exponential(long double);
-long double logarithm(long double, long double);
-long double logarithmOf10(long double);
-long double naturalLogarithm(long double);
-long double sinus(long double);
-long double cosinus(long double);
-long double tangent(long double);
-long double cotangent(long double);
-long double arcusSinus(long double);
-long double arcusCosinus(long double);
-long double arcusTangent(long double);
-long double arcusCotangent(long double);
-long double absoluteValue(long double);
-long double scientificNotation(long double, long double);
+double factorial(double);
+double root(double, double);
+double exponential(double);
+double logarithm(double, double);
+double logarithmOf10(double);
+double naturalLogarithm(double);
+double sinus(double);
+double cosinus(double);
+double tangent(double);
+double cotangent(double);
+double arcusSinus(double);
+double arcusCosinus(double);
+double arcusTangent(double);
+double arcusCotangent(double);
+double absoluteValue(double);
+double scientificNotation(double, double);
+double applyOperator(double, double, const std::string&);

@@ -2,7 +2,7 @@
 #include "dataVerifiers.h"
 #include <iostream>
 
-std::vector<int> handleSpecialFunction(const std::string& token, std::vector<char>& operators, std::vector<std::string>& returnStack, char array[], size_t& i, size_t l);
+std::vector<int> handleSpecialFunction(const std::string& token, std::vector<char>& operators, std::vector<std::string>& returnStack, char array[], size_t& i, size_t l, bool letterOne);
 
 void handleOperator(char character, std::vector<char>& operators, std::vector<std::string>& returnStack) {
 	while (!operators.empty() && operatorPriority(operators.back()) >= operatorPriority(character)) {
@@ -13,8 +13,10 @@ void handleOperator(char character, std::vector<char>& operators, std::vector<st
 }
 
 void handleClosingBracket(char character, std::vector<char>& operators, std::vector<std::string>& returnStack) {
+
 	while (!operators.empty() && operators.back() != '(' && operators.back() != '[') {
 		returnStack.push_back(std::string(1, operators.back()));
+		operators.pop_back();
 	}
 	if (!operators.empty() && (operators.back() == '(' || operators.back() == '[')) {
 		operators.pop_back();
@@ -22,6 +24,9 @@ void handleClosingBracket(char character, std::vector<char>& operators, std::vec
 	else {
 		throw std::runtime_error("Nawiasy zosta³y nieprawid³owo dopasowane w zapisanej funkcji.");
 	}
+	std::string s{ character };
+	returnStack.push_back(s);
+	character = s[0];
 }
 
 size_t moveArrayByDistance(std::vector<int> lengthArray) {
@@ -40,7 +45,8 @@ size_t moveArrayByDistance(std::vector<int> lengthArray) {
 	return movingInt;
 }
 
-std::vector<std::string> elementAnalysis(std::string token, std::vector<char>& operators, std::vector<std::string>& returnStack, char array[], size_t l) {
+std::vector<std::string> elementAnalysis(std::string token, std::vector<char>& operators, std::vector<std::string>& returnStack, char array[], size_t l, bool &letterOne) {
+	bool isLetterOnce = letterOne;
 	for (size_t i = 0; i < l; i++) {
 		char character = array[i];
 
@@ -85,6 +91,10 @@ std::vector<std::string> elementAnalysis(std::string token, std::vector<char>& o
 		}
 		// sprawdzenie znaków pod k¹tem wystêpuj¹cych nawiasów otwieraj¹cych we wzorze funkcji
 		else if (character == '(' || character == '[') {
+			std::string s(1, character);
+			returnStack.push_back(s);
+			character = s[0];
+
 			operators.push_back(character);
 
 			// procedura gdy wystêpuj¹ operatory przed lub po nawiasach dla sytuacji typu 2x, x^3 i kombinacje
@@ -107,6 +117,9 @@ std::vector<std::string> elementAnalysis(std::string token, std::vector<char>& o
 		}
 		// sprawdzenie znaków pod k¹tem specjalnych funkcji oznaczonych w funkcji isSpecialFunction -- do ulepszenia, na razie nie dzia³a
 		else if (isLetter(toupper(character)) && i > 0) { // funkcja specjalna niebêd¹ca jedynie liter¹ y
+			if (isLetterOnce == false) {
+				returnStack.push_back("(");
+			}
 			token.clear();
 			while (i < l && isLetter(toupper(array[i]))) {
 				token += array[i++];
@@ -114,16 +127,13 @@ std::vector<std::string> elementAnalysis(std::string token, std::vector<char>& o
 			i--;
 
 			if (isSpecialFunction(token)) { // jeœli funkcja specjalna
-				std::vector<int> argLenArray = handleSpecialFunction(token, operators, returnStack, array, i, l);
+				std::vector<int> argLenArray = handleSpecialFunction(token, operators, returnStack, array, i, l, isLetterOnce);
 				size_t movingInt = moveArrayByDistance(argLenArray);
 				i += movingInt;
 			}
 		}
 	}
 	while (!operators.empty()) {
-		if (isBracket(operators.back())) {
-			operators.pop_back();
-		}
 		returnStack.push_back(std::string(1, operators.back()));
 		operators.pop_back();
 	}

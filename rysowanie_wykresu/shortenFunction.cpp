@@ -4,7 +4,7 @@
 
 void function::shortenFunction(const function& f) {
 	std::string formula = f.getFormula();
-	long double seachedYforX = f.getXVariable();
+	double seachedYforX = f.getXVariable();
 	char* formulaChar = convertStringArray(formula);
 	int n = 0;
 
@@ -33,6 +33,6 @@ void function::shortenFunction(const function& f) {
 	
 	std::vector<std::string> RPNExpression = convertIntoRPN(formulaChar, arrayLength);
 	delete[] formulaChar;
-	std::string fullyConvertedRPNExpression = combineVectorIntoFullString(RPNExpression);
-	evaluateRPN(fullyConvertedRPNExpression, x);
+
+	evaluateRPN(RPNExpression, x);
 }

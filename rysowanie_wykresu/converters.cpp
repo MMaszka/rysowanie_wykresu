@@ -7,14 +7,3 @@ char* convertStringArray(std::string s) {
 	}
 	return cArray;
 }
-
-std::string combineVectorIntoFullString(std::vector<std::string> arrayWithStringsinRPN) {
-	std::string stringifiedExpression;
-	for (auto& element : arrayWithStringsinRPN) {
-		if (!stringifiedExpression.empty()) {
-			stringifiedExpression += " ";
-		}
-		stringifiedExpression += element;
-	}
-	return stringifiedExpression;
-}
