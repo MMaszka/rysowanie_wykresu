@@ -18,9 +18,6 @@ public:
 	std::string getFormula() const {
 		return formula;
 	}
-	double getXVariable() const {
-		return x;
-	}
 
 	void rel() override;
 	void shortenFunction(const function& f);
