@@ -4,7 +4,6 @@
 
 void function::shortenFunction(const function& f) {
 	std::string formula = f.getFormula();
-	double x = f.getX();
 	char* formulaChar = convertStringArray(formula);
 	int n = 0;
 
@@ -33,6 +32,4 @@ void function::shortenFunction(const function& f) {
 	
 	RPNExpression = convertIntoRPN(formulaChar, arrayLength);
 	delete[] formulaChar;
-
-	evaluateRPN(RPNExpression, x);
 }

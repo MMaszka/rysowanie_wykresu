@@ -9,13 +9,13 @@ relation::~relation() {}
 
 void function::rel() {}
 
-function::function(std::string f) : formula(f), x(1) {
+function::function(std::string f) : formula(f) {
 	shortenFunction(*this);
 }
 
 std::vector<std::string> function::convertIntoRPN(char array[], size_t l) {
-	std::vector<char> operators; // dynamiczna tablica operatorów
-	std::string token; // ¿eton do zapisu ci¹gu znaków o tym samym typie
+	std::vector<char> operators; // dynamiczna tablica operatorÃ³w
+	std::string token; // Â¿eton do zapisu ciÂ¹gu znakÃ³w o tym samym typie
 	std::vector<std::string> returnStack;
 	bool isLetterOnce = false;
 	returnStack = elementAnalysis(token, operators, returnStack, array, l, isLetterOnce); // dynamiczna tablica zwrotu zapisu w ONP

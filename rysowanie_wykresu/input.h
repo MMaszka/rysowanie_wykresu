@@ -12,15 +12,11 @@ public:
 
 class function : virtual public relation {
 	std::string formula;
-	double x;
 public:
 	function(std::string formula);
 
 	std::string getFormula() const {
 		return formula;
-	}
-	double getX() const {
-		return x;
 	}
 
 	void rel() override;
