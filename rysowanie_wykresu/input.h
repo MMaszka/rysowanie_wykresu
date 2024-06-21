@@ -3,7 +3,7 @@
 #include <vector>
 #include "conditioners.h"
 
-class relation { // dla przysz³ych relacji np. równania
+class relation { // dla przyszÂ³ych relacji np. rÃ³wnania
 public:
 	relation();
 	virtual void rel() = 0;
@@ -19,13 +19,14 @@ public:
 	std::string getFormula() const {
 		return formula;
 	}
-	double getXVariable() const {
+	double getX() const {
 		return x;
 	}
 
 	void rel() override;
 	void shortenFunction(const function& f);
 	std::vector<std::string> convertIntoRPN(char s[], size_t l);
+	std::vector<std::string> RPNExpression;
 	double evaluateRPN(const std::vector<std::string>& expression, double x);
 
 	virtual ~function();

@@ -78,6 +78,7 @@ double evaluateTempRPN(std::vector<std::string>& tempExpression, double x) {
             int j = i + 1;
 
             for (j; j < tempExpression.capacity() - 1; j++) {
+                if (tempExpression[j] == "(") continue;
                 if (tempExpression[j] == ")") {
                     break;
                 }
@@ -245,6 +246,7 @@ double function::evaluateRPN(const std::vector<std::string>& expression, double 
             int j = i+1;
 
             for (j; j < expression.capacity() - 1; j++) {
+                if (expression[j] == "(") continue;
                 if (expression[j] == ")") {
                     break;
                 }
@@ -335,6 +337,5 @@ double function::evaluateRPN(const std::vector<std::string>& expression, double 
     }
 
     double result = stack.back();
-    std::cout << "Dla x = " << x << " wynik funkcji wynosi: " << result << std::endl;
     return result;
 }

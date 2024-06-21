@@ -4,11 +4,11 @@
 
 void function::shortenFunction(const function& f) {
 	std::string formula = f.getFormula();
-	double seachedYforX = f.getXVariable();
+	double x = f.getX();
 	char* formulaChar = convertStringArray(formula);
 	int n = 0;
 
-	// procedura usuwania niepotrzebnych elementów z zapisu
+	// procedura usuwania niepotrzebnych elementÃ³w z zapisu
 	for (int i = 0; i < formula.length(); i++) {
 		if (formulaChar[i] == ' ') { // spacje
 			for (int j = i; j < formula.length() - n; j++) {
@@ -19,7 +19,7 @@ void function::shortenFunction(const function& f) {
 	}
 	size_t arrayLength = formula.length() - n;
 
-	// proces przekszta³cenia z f(x) na y
+	// proces przeksztaÂ³cenia z f(x) na y
 	std::string str(formulaChar, arrayLength);
 	if (str.substr(0, 4) == "f(x)") {
 		str.erase(0, 4);
@@ -31,7 +31,7 @@ void function::shortenFunction(const function& f) {
 		}
 	}
 	
-	std::vector<std::string> RPNExpression = convertIntoRPN(formulaChar, arrayLength);
+	RPNExpression = convertIntoRPN(formulaChar, arrayLength);
 	delete[] formulaChar;
 
 	evaluateRPN(RPNExpression, x);
