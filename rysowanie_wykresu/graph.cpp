@@ -42,7 +42,7 @@ void Graph::Run(){
 
 			if (function.size() != 0) {
 				function[function.size() - 1]->position = position; // to optimalize!
-				function[function.size() - 1]->CalculateFunction(function[function.size() - 1]->functions[0]);
+				function[function.size() - 1]->CalculateFunction();
 				function[function.size() - 1]->ModifyInstances();
 
 			}
@@ -60,7 +60,7 @@ void Graph::Run(){
 			if (last_position != position) { // position is also changed while zooming
 				for (int i = 0; i < function.size(); i++) {
 					function[i]->position = position;
-					function[i]->CalculateFunction(function[0]->functions[0]);
+					function[i]->CalculateFunction();
 					function[i]->ModifyInstances();
 				}
 			}
