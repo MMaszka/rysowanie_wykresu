@@ -43,7 +43,7 @@ Function::Function(std::string fun, App_info info):
 
 // letters in the input
 bool containsInvalidLetters(const std::string& str) {
-	std::regex valid_chars(R"((\d+|[xyz]|\+|\-|\*|\/|\^|\(|\)|\s||sin|cos|tan|log|sqrt|[\d.]+)+)");
+	 std::regex valid_chars(R"((\d+|[xyz]|\+|\-|\*|\/|\^|\(|\)|\s||sin|cos|tan|log|sqrt|arcsin|arccos|arctan|arccot|abs|fact|lg|ln|addition|substraction|multiplication|division|exponentiation|[\d.]+)+)");
 	return !std::regex_match(str, valid_chars);
 }
 
