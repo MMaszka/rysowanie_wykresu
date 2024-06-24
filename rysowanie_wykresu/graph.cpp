@@ -1,6 +1,6 @@
 #include "graph.h"
 
-double ZOOM = 1;
+double ZOOM = -60;
 Graph::Graph() :Camera_controller(12.0f / 9.0f,app_info),window(std::make_unique<Window>()){
 	FunShader = new Shader("function.vs", "function.fs");
 
@@ -48,23 +48,50 @@ void Graph::Run(){
 			}
 		}
 
+
 		// - Axis
 		axis.cam_pos = -position * float(app_info.GetZoom()); 
 		axis.OnUpdate();
 		axis.Draw();
-		
-		
+
+
+
+		auto start = std::chrono::high_resolution_clock::now();
+		auto stop = std::chrono::high_resolution_clock::now();
+		auto FunCalcTime = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+		double totalTime{};
 		// - Functions
 		FunShader->use();
 		// multithreading can be implemented here
 			if (last_position != position) { // position is also changed while zooming
 				for (int i = 0; i < function.size(); i++) {
+					
+
 					function[i]->position = position;
+
+					start = std::chrono::high_resolution_clock::now();
 					function[i]->CalculateFunction();
+					stop = std::chrono::high_resolution_clock::now();
+
 					function[i]->ModifyInstances();
+
+
+					
+					FunCalcTime = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+
+					totalTime += FunCalcTime.count();
 				}
 			}
 		last_position = position;
+
+		
+		
+		if (function.size() > 0) {
+			//system("cls");
+			std::cout << "\ntime( ms ) :" << totalTime / 1000.0f;
+		}
+
+
 
 		for (int i = 0; i < function.size(); i++) {
 	
@@ -74,9 +101,17 @@ void Graph::Run(){
 		Camera_controller.OnUpdate();
 		FunShader->setMat4("projection", Camera_controller.Camera.projection);
 
-		
+		/*
+		if (function.size()>0) {
+			system("cls");
+			std::cout << "Time spend on:"
+				<< "\nCalculating:" << FunCalcTime.count() / 1000000.0f;
+		}
+		*/
+
 		glfwSwapBuffers(window->window);
 		glfwPollEvents();
+	
 	};
 
 	th1.join();

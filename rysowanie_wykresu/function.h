@@ -11,6 +11,8 @@
 #include "window.h"
 
 #include <thread>
+#include <chrono>
+#include <numeric>
 
 struct Operators {
 	std::string allowed = ("|sin|cos|tan|cot|;|+|-|*|/|^|"); // if operator is longer than max allowed operator length it wont be checked
@@ -25,7 +27,7 @@ private:
 
 	int vertices_size{6}, indices_size{1};
 	unsigned int VAO{}, VBO{}, EBO{}, sizeEBO{}, sizeVAO{}, buffer{};
-	int number_of_points = 50000; // number of points per function
+	int number_of_points = 5000; // number of points per function
 
 	// RNP
 	int* SimplifiedType;// stores simplified version of function

@@ -4,14 +4,15 @@
 #include "axis.h"
 #include "ortho_camera_controller.h"
 #include "shader.h"
+#include <chrono>
 
 
 class Graph {
 	Ortho_camera_controller Camera_controller;
 	Shader* FunShader; // shader for drawing points (function)
 public:
-	glm::vec3 position{};
-	glm::vec3 last_position{};
+	glm::vec3 position{0};
+	glm::vec3 last_position{0};
 
 	Graph();
 	void Run();
@@ -23,7 +24,7 @@ public:
 	std::unique_ptr<Window> window;
 	float mouse_last_posX, mouse_last_posY;
 	void MouseDisplacement();
-	double lastZoom{ 1 };
+	double lastZoom{ -60 };
 	void OnZoomChange(glm::vec3 mousePos);
 
 	std::vector <Function*> function;

@@ -128,25 +128,79 @@ bool Function::CheckFunction() {
 
 
 void Function::CalculateFunction() {
+
+	auto start = std::chrono::high_resolution_clock::now();
+	auto stop = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::microseconds> (stop - start);
+	double totalTime = duration.count();
+	auto totalTime2 = duration.count();
+
 	double y{}, x{};
 	int point_number = 0;
 	double interval = 1.0 / number_of_points; // distance between points
-	for (int i = -number_of_points / 2; i < number_of_points / 2; i++) {
-		glm::mat4 point = glm::mat4(1.0f);
 
+	std::vector<int> intarr(number_of_points);
+	std::iota(intarr.begin(), intarr.end(), -number_of_points/2);
+
+	glm::mat4 point = glm::mat4(1.0f);
+
+	//--------------TESTING AREA 
+	///*
+	
+	start = std::chrono::high_resolution_clock::now();
+	for (auto& i : intarr) {
+		auto start2 = std::chrono::high_resolution_clock::now();
+		int a = i - number_of_points / 2;
+		//point = glm::mat4(1.0f);
+		auto stop2 = std::chrono::high_resolution_clock::now();
+		auto duration2 = std::chrono::duration_cast<std::chrono::microseconds> (stop2 - start2);
+		totalTime2 += duration2.count();
+	};
+
+	stop = std::chrono::high_resolution_clock::now();
+	duration = std::chrono::duration_cast<std::chrono::microseconds> (stop - start);
+	totalTime += duration.count();
+	std::cout << "\nTIME-empty( ms ) :" << totalTime / 1000.0f;
+	std::cout << "\nTIME-empty-inside( ms ) :" << totalTime2 / 1000.0f;
+
+	totalTime2 = 0;
+	//*/
+	//----------------------
+	
+	start = std::chrono::high_resolution_clock::now();
+	
+	for (auto& i : intarr) {
+		auto start2 = std::chrono::high_resolution_clock::now();
+
+		point = glm::mat4(1.0f);
 		x = (i * (*app_info.width / float(*app_info.height)) * 2 / app_info.GetZoom() - position.x * number_of_points) * interval; // caluculate x position - depends on camera position and zoom
-		if (test == "1") y = ((x)*sin(1 / (x)));
-		else if (test == "2") y = x;
-		else if (test == "3") y = x * x;
-		else if (test == "4") y = x * x * x;
-		else y = CalculateRPN(x);
-
+		y = CalculateRPN(x);
 		point = glm::translate(point, glm::vec3(
 			(x  + position.x) * app_info.GetZoom()+0.5,
 			(y  + position.y) * app_info.GetZoom(),
 			0.0f));
 		pointMatrices[point_number++] = point; // put y into instance matrix
+
+		auto stop2 = std::chrono::high_resolution_clock::now();
+		auto duration2 = std::chrono::duration_cast<std::chrono::microseconds> (stop2 - start2);
+		totalTime2 += duration2.count();
 	}
+
+	stop = std::chrono::high_resolution_clock::now();
+	
+	duration = std::chrono::duration_cast<std::chrono::microseconds> (stop - start);
+	
+	totalTime += duration.count();
+	
+
+	
+	
+
+	system("cls");
+	std::cout << "\nTIME( ms ) :" << totalTime / 1000.0f;
+	std::cout << "\nTIME_inside( ms ) :" << totalTime2 / 1000.0f;
+	
+	
 
 }
 
@@ -181,6 +235,9 @@ void Function::CreateBuffers() {
 void Function::ModifyInstances() {
 	//modify mat4 in location 2
 
+	
+
+
 	glBindBuffer(GL_ARRAY_BUFFER, buffer);
 	glBufferData(GL_ARRAY_BUFFER, number_of_points * sizeof(glm::mat4), pointMatrices, GL_STATIC_DRAW);
 	glBindVertexArray(VAO);
@@ -199,6 +256,8 @@ void Function::ModifyInstances() {
 	glVertexAttribDivisor(5, 1);
 
 	glBindVertexArray(0);
+
+	
 }
 
 void Function::Draw() {
@@ -209,6 +268,10 @@ void Function::Draw() {
 }
 Function::~Function() {
 	delete[] pointMatrices;
+	delete[] SimplifiedType;
+	delete[] SimplifiedValue;
+	delete[] RPNType;
+	delete[] RPNValue;
 }
 
 void GetFunctionString(GLFWwindow* window, std::string* function, bool* finished) {
@@ -342,7 +405,6 @@ void Function::ToRPN() {
 	OperatorPosition[1] = new int[OperatorBufferSize] {};
 	OperatorPosition[2] = new int[OperatorBufferSize] {};
 	OperatorPosition[3] = new int[OperatorBufferSize] {};
-
 
 	int bufferLevel{};
 	int readyToOutput = 0; // how many operators from buffer has to be saved
@@ -532,6 +594,7 @@ void Function::ToRPN() {
 		}
 
 	}
+
 }
 
 
@@ -551,8 +614,12 @@ float Function::CalculateRPN(float x) {
 			Value[i] = x;
 		}
 	}
-
+	
 	y = solve(Type, Value, RPNLength - 1);
+	
+
+	delete[] Type;
+	delete[] Value;
 
 	return y;
 }
