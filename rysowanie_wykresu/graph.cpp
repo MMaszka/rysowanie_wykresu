@@ -43,6 +43,9 @@ void Graph::Run(){
 		// creating new function
 		if (typing == true) {
 			typing = false;
+			int len = 0;
+			for (int i = 0; StrFunction[i]; i++) if (StrFunction[i] != ' ') StrFunction[len++] = StrFunction[i]; //remove space;
+			StrFunction = StrFunction.substr(0, len);
 			AddNewFunction(StrFunction, app_info);
 
 			if (function[function.size() - 1]->IsCorrect == false)function.pop_back();

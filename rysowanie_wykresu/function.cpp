@@ -6,10 +6,10 @@ Operators operators;
 
 Function::Function(std::string fun, App_info info):
 	app_info(info),
-	SimplifiedType(new int[std::max(int(fun.size()),3)] {}), // ensures than table size is larger or equal to 3
-	SimplifiedValue(new float[std::max(int(fun.size()), 3)] {}),
-	RPNType(new int[std::max(int(fun.size()), 3)] {}),
-	RPNValue(new float[std::max(int(fun.size()), 3)] {}),
+	SimplifiedType(new int[std::max(int(fun.size() * 3 / 2.0f),3)] {}), // ensures than table size is larger or equal to 3
+	SimplifiedValue(new float[std::max(int(fun.size() * 3 / 2.0f), 3)] {}),
+	RPNType(new int[std::max(int(fun.size() * 3 / 2.0f), 3)] {}),
+	RPNValue(new float[std::max(int(fun.size() * 3 / 2.0f), 3)] {}),
 	functionString(fun) 
 {
 	if (!CheckFunction()) {
@@ -295,8 +295,26 @@ void Function::SimplifyFunction() {
 			SimplifiedType[j] = BRACKET_CLOSE;
 		}
 		else if (function[i] == 'x') {
-			SimplifiedValue[j] = 0;
-			SimplifiedType[j] = VARIABLE;
+			
+			if (i > 0 && (function[i - 1] == ')' || (function[i - 1] >'0'&& function[i - 1] < '9'))) {
+				SimplifiedValue[j] = MULTIPLICATION;
+				SimplifiedType[j] = OPERATOR;
+				j++,i++;
+				SimplifiedValue[j] = 0;
+				SimplifiedType[j] = VARIABLE;
+			}
+			else if (i <= function.size() && (function[i + 1] == '(' || (function[i + 1] > '0' && function[i + 1] < '9'))) {
+				SimplifiedValue[j] = 0;
+				SimplifiedType[j] = VARIABLE;
+				j++,i++;
+				SimplifiedValue[j] = MULTIPLICATION;
+				SimplifiedType[j] = OPERATOR;
+
+			}
+			else {
+				SimplifiedValue[j] = 0;
+				SimplifiedType[j] = VARIABLE;
+			}
 		}
 		else {
 			int length{}; // length of operator
@@ -357,12 +375,12 @@ void Function::SimplifyFunction() {
 	
 	// if user gives only one number/varaible - add 0
 	// this ensures that the rest of the code will execute correctly 
-	if (SimplifiedLength == 1) {
-		SimplifiedType[1] = OPERATOR;
-		SimplifiedValue[1] = ADDITION;
-		SimplifiedType[2] = NUMBER;
-		SimplifiedLength = 3;
-		RPNLength = 3;
+	if (SimplifiedLength <= 2) {
+		SimplifiedType[j] = OPERATOR;
+		SimplifiedValue[j] = ADDITION;
+		SimplifiedType[j+1] = NUMBER;
+		SimplifiedLength = j+2;
+		RPNLength = j+2;
 	}
 	//std::cout << "Function Length: " << RPNLength << "\n";
 	//std::cout << "Function Length: " << SimplifiedLength << "\n";
