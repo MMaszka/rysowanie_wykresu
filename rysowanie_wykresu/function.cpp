@@ -15,8 +15,6 @@ Function::Function(std::string fun, App_info info):
 	RPNValue(new float[std::max(int(fun.size()), 3)] {}),
 	functionString(fun) 
 {
-	test = fun;
-	
 	if (1) {
 		IsCorrect = true;
 		functions.push_back(fun);
@@ -131,12 +129,6 @@ bool Function::CheckFunction() {
 
 void Function::CalculateFunction() {
 
-	auto start = std::chrono::high_resolution_clock::now();
-	auto stop = std::chrono::high_resolution_clock::now();
-	auto duration = std::chrono::duration_cast<std::chrono::microseconds> (stop - start);
-	double totalTime = duration.count();
-	auto totalTime2 = duration.count();
-
 	double y{}, x{};
 	point_number = 0;
 
@@ -147,17 +139,11 @@ void Function::CalculateFunction() {
 
 	glm::mat4 point = glm::mat4(1.0f);
 
-	
-	
-	
-
 	// this variable depends on camera position, windows size, zoom and number of points 
 	xPlaneSpacing = (*app_info.width / float(*app_info.height)) * 2 / app_info.GetZoom() * (1.0f / number_of_points);
 	xPlaneShift = position.x * number_of_points * (1.0f / number_of_points);
 
 	x = (-number_of_points/2)*xPlaneSpacing - xPlaneShift; // caluculate x position - depends on camera position and zoom
-	
-	start = std::chrono::high_resolution_clock::now();
 
 	for (auto& i : intarr) {
 
@@ -165,33 +151,11 @@ void Function::CalculateFunction() {
 		x += xPlaneSpacing; // move x to the right - based od screen width
 
 		y = CalculateRPN(x);
-
-		/*
-		point = glm::translate(point, glm::vec3(
-			(x  + position.x) * app_info.GetZoom()+0.5,
-			(y  + position.y) * app_info.GetZoom(),
-			0.0f));
-		*/
 		point[3] = glm::vec4((x + position.x) * app_info.GetZoom() + 0.5, (y + position.y)* app_info.GetZoom(),0.0f,1.0f);
-
-
 
 		pointMatrices[point_number++] = point; // put y into instance matrix
 	}
 
-	stop = std::chrono::high_resolution_clock::now();
-	
-	duration = std::chrono::duration_cast<std::chrono::microseconds> (stop - start);
-	
-	totalTime += duration.count();
-	
-
-	
-	
-
-	//system("cls");
-	std::cout << "\nTIME( ms ) :" << totalTime / 1000.0f;
-	
 	
 
 }
@@ -259,6 +223,11 @@ void Function::Draw() {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glDrawElementsInstanced(GL_POINTS, indices_size, GL_UNSIGNED_INT, 0, number_of_points);
 }
+
+void Function::ChangeColor(glm::vec3 color) {
+	this->color = color;
+}
+
 Function::~Function() {
 	delete[] pointMatrices;
 	delete[] SimplifiedType;
@@ -266,6 +235,8 @@ Function::~Function() {
 	delete[] RPNType;
 	delete[] RPNValue;
 }
+
+
 
 void GetFunctionString(GLFWwindow* window, std::string* function, bool* finished) {
 	while (!glfwWindowShouldClose(window)) {
@@ -384,8 +355,8 @@ void Function::SimplifyFunction() {
 		SimplifiedLength = 3;
 		RPNLength = 3;
 	}
-	std::cout << "Function Length: " << RPNLength << "\n";
-	std::cout << "Function Length: " << SimplifiedLength << "\n";
+	//std::cout << "Function Length: " << RPNLength << "\n";
+	//std::cout << "Function Length: " << SimplifiedLength << "\n";
 }
 
 void Function::ToRPN() {
@@ -689,6 +660,9 @@ float Function::solve(int Type[], float Value[], int size) {
 		break;
 	case(EXPONENTIATION):
 		y = powf(LeftArgument, RightArgument);
+		break;
+	case(SQRT):
+		y = sqrt(LeftArgument);
 		break;
 	case(SIN):
 		y = sin(LeftArgument);

@@ -30,7 +30,7 @@ private:
 
 	int vertices_size{6}, indices_size{1};
 	unsigned int VAO{}, VBO{}, EBO{}, sizeEBO{}, sizeVAO{}, buffer{};
-	int number_of_points = 50000; // number of points per function - can't be less than 10
+	int number_of_points = 20000; // number of points per function - can't be less than 10
 
 
 	int precisionDigits = static_cast<int>(std::log10(number_of_points)) + 1; // number of digits in nuber_of_points
@@ -51,6 +51,8 @@ private:
 	int RPNLength;
 	int SimplifiedLength{};
 
+	
+
 public:
 	App_info app_info;
 	glm::vec3 position{};// cam position
@@ -65,7 +67,7 @@ public:
 	int point_number = 0;
 	glm::mat4* pointMatrices = new glm::mat4[number_of_points];// stores function points
 
-	std::string test{}; // for manual function testing
+	glm::vec3 color = glm::vec3(0.5f, 0.5f, 0.5f);
 
 	Function(std::string fun,App_info info);
 	void CreateBuffers();
@@ -73,6 +75,8 @@ public:
 	bool CheckFunction();
 	void CalculateFunction();
 	void Draw();
+
+	void ChangeColor(glm::vec3 color);
 
 	//RNP
 	void SimplifyFunction();

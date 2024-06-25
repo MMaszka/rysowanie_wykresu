@@ -14,6 +14,7 @@ Graph::Graph() :Camera_controller(12.0f / 9.0f,app_info),window(std::make_unique
 	FunShader->use();
 	FunShader->setMat4("view", Camera_controller.Camera.view);
 	FunShader->setMat4("projection", Camera_controller.Camera.projection);
+
 	
 }
 
@@ -25,6 +26,11 @@ void Graph::Run(){
 	std::string StrFunction;
 	std::thread th1(GetFunctionString, window->window, &StrFunction, &typing);
 
+	//random
+	std::random_device dev;
+	std::mt19937 rng(dev());
+	std::uniform_int_distribution<std::mt19937::result_type> rand(1,140);
+
 	while (!glfwWindowShouldClose(window->window)) { // main window loop
 		float time = (float)glfwGetTime();
 		float timestep = time - last_frame_time;
@@ -34,6 +40,7 @@ void Graph::Run(){
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		MouseDisplacement();
 
+		// creating new function
 		if (typing == true) {
 			typing = false;
 			AddNewFunction(StrFunction, app_info);
@@ -44,6 +51,8 @@ void Graph::Run(){
 				function[function.size() - 1]->position = position; // to optimalize!
 				function[function.size() - 1]->CalculateFunction();
 				function[function.size() - 1]->ModifyInstances();
+				//random color from range 0.625 to 1
+				function[function.size() - 1]->ChangeColor(glm::vec3(0.375f + rand(rng) / 256.0f, 0.375f + rand(rng) / 256.0f, 0.375f + rand(rng) / 256.0f));
 
 			}
 		}
@@ -66,17 +75,9 @@ void Graph::Run(){
 			}
 		last_position = position;
 
-		
-		
-		if (function.size() > 0) {
-			//system("cls");
-			//std::cout << "\ntime( ms ) :" << totalTime / 1000.0f;
-		}
-
-
 
 		for (int i = 0; i < function.size(); i++) {
-	
+			FunShader->setVec3("color", function[i]->color);
 			function[i]->Draw();
 		}
 		window->OnResize();

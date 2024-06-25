@@ -4,8 +4,10 @@
 #include "axis.h"
 #include "ortho_camera_controller.h"
 #include "shader.h"
-#include <chrono>
 
+#include <chrono>
+#include <random>
+#include <iostream>
 
 class Graph {
 	Ortho_camera_controller Camera_controller;
@@ -17,12 +19,12 @@ public:
 	Graph();
 	void Run();
 	bool running=true;
-	float last_frame_time;
+	float last_frame_time{};
 
 	App_info app_info=App_info(0,0,0);
 
 	std::unique_ptr<Window> window;
-	float mouse_last_posX, mouse_last_posY;
+	float mouse_last_posX{}, mouse_last_posY{};
 	void MouseDisplacement();
 	double lastZoom{ -60 };
 	void OnZoomChange(glm::vec3 mousePos);
@@ -33,6 +35,8 @@ public:
 	void EditFunction(int ID);
 	
 	Axis axis;
+
+	
 
 };
 
