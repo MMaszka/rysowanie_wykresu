@@ -15,7 +15,7 @@ Function::Function(std::string fun, App_info info):
 	RPNValue(new float[std::max(int(fun.size()), 3)] {}),
 	functionString(fun) 
 {
-	if (1) {
+	if (!CheckFunction()) {
 		IsCorrect = true;
 		functions.push_back(fun);
 		glGenBuffers(1, &buffer);
@@ -601,7 +601,7 @@ float Function::solve(int Type[], float Value[], int size) {
 	if (Value[size] > 200 && Type[size - 1] == OPERATOR) { // check group two
 		int stepsDone{};
 		int operatorRange{};
-		for (int steps = 1; steps > 0; --steps) { // subdivide operation
+		for (int steps = 1; steps > 0; steps--) { // subdivide operation
 			operatorRange--;
 			if (Type[size - stepsDone - 1] == OPERATOR) {
 				if (Type[size - stepsDone - 1] == OPERATOR && Value[size - stepsDone - 1] > 200) {
@@ -621,18 +621,26 @@ float Function::solve(int Type[], float Value[], int size) {
 		if (Type[size - stepsDone - 1] == OPERATOR) {
 			LeftArgument = solve(Type, Value, size - stepsDone - 1);
 		}
-		else {
+		else if(size!=stepsDone){
 			LeftArgument = Value[size - stepsDone + 1];
+		}
+		else {
+			LeftArgument = 0;
 		}
 	}
 	else if (Value[size] > 200 && size > 2) {
 		RightArgument = Value[size - 1];
 		LeftArgument = solve(Type, Value, size - 2);
 	}
-	else if (Value[size] > 200 && size <= 2) {
+	else if (Value[size] > 200 && size == 2) {
 		RightArgument = Value[size - 1];
 		LeftArgument = Value[size - 2];
 	}
+	else if (Value[size] > 200 && size == 1) {
+		RightArgument = Value[size - 1];
+		LeftArgument = 0;
+	}
+
 	else if (Value[size] < 200 && Type[size - 1] == OPERATOR) { // check group one
 		LeftArgument = solve(Type, Value, size - 1);
 	}
@@ -707,136 +715,4 @@ float Function::solve(int Type[], float Value[], int size) {
 	
 
 	return y;
-}
-
-// calculating points - saves 20-25% of time compared to loops
-void Function::RecursivePointCalc(float X, int a) {
-	if (a > 1) {
-		int it = pow(10, precisionDigits - a);
-		RecursivePointCalc(X, a-1);
-		RecursivePointCalc(X+1*it*xPlaneSpacing, a-1);
-		RecursivePointCalc(X+2*it*xPlaneSpacing, a-1);
-		RecursivePointCalc(X+3*it*xPlaneSpacing, a-1);
-		RecursivePointCalc(X+4*it*xPlaneSpacing, a-1);
-		RecursivePointCalc(X+5*it*xPlaneSpacing, a-1);
-		RecursivePointCalc(X+6*it*xPlaneSpacing, a-1);
-		RecursivePointCalc(X+7*it*xPlaneSpacing, a-1);
-		RecursivePointCalc(X+8*it*xPlaneSpacing, a-1);
-		RecursivePointCalc(X+9*it*xPlaneSpacing, a-1);
-	}
-	else {
-		int x = X;
-	// X 1
-		glm::mat4 point = glm::mat4(1.0f);
-		x += xPlaneSpacing; // move x to the right - based od screen width
-
-		float y = CalculateRPN(x);
-		point = glm::translate(point, glm::vec3(
-			(x + position.x) * app_info.GetZoom() + 0.5,
-			(y + position.y) * app_info.GetZoom(),
-			0.0f));
-
-		pointMatrices[point_number++] = point; // put y into instance matrix
-	// X 2
-		point = glm::mat4(1.0f);
-		x += xPlaneSpacing; // move x to the right - based od screen width
-
-		y = CalculateRPN(x);
-		point = glm::translate(point, glm::vec3(
-			(x + position.x) * app_info.GetZoom() + 0.5,
-			(y + position.y) * app_info.GetZoom(),
-			0.0f));
-
-		pointMatrices[point_number++] = point; // put y into instance matrix
-	// X 3
-		point = glm::mat4(1.0f);
-		x += xPlaneSpacing; // move x to the right - based od screen width
-
-		y = CalculateRPN(x);
-		point = glm::translate(point, glm::vec3(
-			(x + position.x) * app_info.GetZoom() + 0.5,
-			(y + position.y) * app_info.GetZoom(),
-			0.0f));
-
-		pointMatrices[point_number++] = point; // put y into instance matrix
-	// X 4
-		point = glm::mat4(1.0f);
-		x += xPlaneSpacing; // move x to the right - based od screen width
-
-		y = CalculateRPN(x);
-		point = glm::translate(point, glm::vec3(
-			(x + position.x) * app_info.GetZoom() + 0.5,
-			(y + position.y) * app_info.GetZoom(),
-			0.0f));
-
-		pointMatrices[point_number++] = point; // put y into instance matrix
-	// X 5
-		point = glm::mat4(1.0f);
-		x += xPlaneSpacing; // move x to the right - based od screen width
-
-		y = CalculateRPN(x);
-		point = glm::translate(point, glm::vec3(
-			(x + position.x) * app_info.GetZoom() + 0.5,
-			(y + position.y) * app_info.GetZoom(),
-			0.0f));
-
-		pointMatrices[point_number++] = point; // put y into instance matrix
-	// X 6
-		point = glm::mat4(1.0f);
-		x += xPlaneSpacing; // move x to the right - based od screen width
-
-		y = CalculateRPN(x);
-		point = glm::translate(point, glm::vec3(
-			(x + position.x) * app_info.GetZoom() + 0.5,
-			(y + position.y) * app_info.GetZoom(),
-			0.0f));
-
-		pointMatrices[point_number++] = point; // put y into instance matrix
-	// X 7
-		point = glm::mat4(1.0f);
-		x += xPlaneSpacing; // move x to the right - based od screen width
-
-		y = CalculateRPN(x);
-		point = glm::translate(point, glm::vec3(
-			(x + position.x) * app_info.GetZoom() + 0.5,
-			(y + position.y) * app_info.GetZoom(),
-			0.0f));
-
-		pointMatrices[point_number++] = point; // put y into instance matrix
-	// X 8
-		point = glm::mat4(1.0f);
-		x += xPlaneSpacing; // move x to the right - based od screen width
-
-		y = CalculateRPN(x);
-		point = glm::translate(point, glm::vec3(
-			(x + position.x) * app_info.GetZoom() + 0.5,
-			(y + position.y) * app_info.GetZoom(),
-			0.0f));
-
-		pointMatrices[point_number++] = point; // put y into instance matrix
-	// X 9
-		point = glm::mat4(1.0f);
-		x += xPlaneSpacing; // move x to the right - based od screen width
-
-		y = CalculateRPN(x);
-		point = glm::translate(point, glm::vec3(
-			(x + position.x) * app_info.GetZoom() + 0.5,
-			(y + position.y) * app_info.GetZoom(),
-			0.0f));
-
-		pointMatrices[point_number++] = point; // put y into instance matrix
-	// X 10
-		point = glm::mat4(1.0f);
-		x += xPlaneSpacing; // move x to the right - based od screen width
-
-		y = CalculateRPN(x);
-		point = glm::translate(point, glm::vec3(
-			(x + position.x) * app_info.GetZoom() + 0.5,
-			(y + position.y) * app_info.GetZoom(),
-			0.0f));
-		
-		pointMatrices[point_number++] = point; // put y into instance matrix
-	
-		//std::cout << '\n' << point_number;
-	}
 }

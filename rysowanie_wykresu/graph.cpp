@@ -29,7 +29,7 @@ void Graph::Run(){
 	//random
 	std::random_device dev;
 	std::mt19937 rng(dev());
-	std::uniform_int_distribution<std::mt19937::result_type> rand(1,140);
+	std::uniform_int_distribution<std::mt19937::result_type> rand(1,64);
 
 	while (!glfwWindowShouldClose(window->window)) { // main window loop
 		float time = (float)glfwGetTime();
@@ -52,7 +52,15 @@ void Graph::Run(){
 				function[function.size() - 1]->CalculateFunction();
 				function[function.size() - 1]->ModifyInstances();
 				//random color from range 0.625 to 1
-				function[function.size() - 1]->ChangeColor(glm::vec3(0.375f + rand(rng) / 256.0f, 0.375f + rand(rng) / 256.0f, 0.375f + rand(rng) / 256.0f));
+
+				float red = 0.75f + rand(rng) / 256.0f;
+				float green = 0.75f + rand(rng) / 256.0f;
+				float blue = 0.75f + rand(rng) / 256.0f;
+				if (rand(rng) > 31)red -= 0.5;
+				if (rand(rng) > 31)green -= 0.5;
+				if (rand(rng) > 31)blue -= 0.5;
+
+				function[function.size() - 1]->ChangeColor(glm::vec3(red, green, blue));
 
 			}
 		}
