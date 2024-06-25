@@ -331,11 +331,21 @@ void Function::SimplifyFunction() {
 				}
 			} while (length < operators.maxAllowedLength);
 			int operatorID{};
-			if (foundAt < operators.semicolonPosition) {//find group which operator belongs 
+			if (foundAt < operators.semicolonPosition) {//find group which operator belongs to
 				for (char c : operators.allowed.substr(0, foundAt + 1)) {
 					if (c == '|')operatorID++; // find operator ID - for more info check #define's in file : 
 				}
-				SimplifiedValue[j] = operatorID + 100; // group one 
+				if (j > 0 && (SimplifiedType[j-1] == VARIABLE || SimplifiedType[j-1] == NUMBER)) {
+					SimplifiedType[j] = OPERATOR;
+					SimplifiedValue[j] = MULTIPLICATION;
+					j++;
+					SimplifiedValue[j] = operatorID + 100;
+				}
+				else
+				{
+					SimplifiedValue[j] = operatorID + 100; // group one 
+				}
+				
 			}
 			else {
 				for (char c : operators.allowed.substr(operators.semicolonPosition, foundAt + 1 - operators.semicolonPosition)) { // find in group two
