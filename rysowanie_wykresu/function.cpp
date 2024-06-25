@@ -1,9 +1,6 @@
 #include "function.h"
 #include "graph.h"
-#include <iostream>
-#include <string>
-#include <regex>
-#include <algorithm>
+
 
 Operators operators;
 
@@ -237,6 +234,8 @@ Function::~Function() {
 }
 
 
+bool IsSpecial = false;
+bool Remove = false;
 
 void GetFunctionString(GLFWwindow* window, std::string* function, bool* finished) {
 	while (!glfwWindowShouldClose(window)) {
@@ -244,6 +243,16 @@ void GetFunctionString(GLFWwindow* window, std::string* function, bool* finished
 			std::cout << "wprowadz funkcje:";
 			std::cin >> *function;
 			*finished = true;
+		}
+		else if (glfwGetKey(window, GLFW_KEY_O)) {
+			std::cout << "wprowadz funkcje:";
+			std::cin >> *function;
+			*finished = true;
+			IsSpecial = true;
+		}
+		else if (glfwGetKey(window, GLFW_KEY_BACKSPACE)) {
+			Remove = true;
+			std::this_thread::sleep_for(std::chrono::milliseconds(100));
 		}
 	}
 };

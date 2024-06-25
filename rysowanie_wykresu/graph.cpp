@@ -52,7 +52,7 @@ void Graph::Run(){
 				function[function.size() - 1]->CalculateFunction();
 				function[function.size() - 1]->ModifyInstances();
 				//random color from range 0.625 to 1
-
+				if (IsSpecial == true) function[function.size() - 1]->is_special = true;
 				float red = 0.75f + rand(rng) / 256.0f;
 				float green = 0.75f + rand(rng) / 256.0f;
 				float blue = 0.75f + rand(rng) / 256.0f;
@@ -64,7 +64,10 @@ void Graph::Run(){
 
 			}
 		}
-
+		if (Remove == true&& function.size()>0) {
+			function.pop_back();
+			Remove = false;
+		}
 
 		// - Axis
 		axis.cam_pos = -position * float(app_info.GetZoom()); 
@@ -76,15 +79,20 @@ void Graph::Run(){
 		// multithreading can be implemented here
 			if (last_position != position) { // position is also changed while zooming
 				for (int i = 0; i < function.size(); i++) {
+					
 					function[i]->position = position;
 					function[i]->CalculateFunction();
 					function[i]->ModifyInstances();
+					
 				}
 			}
 		last_position = position;
 
 
 		for (int i = 0; i < function.size(); i++) {
+			if (function[i]->is_special == true) {
+				function[i]->ChangeColor(glm::vec3(0.5f+cos(time*2+i/2.0f)/2, 0.5f + cos(time*2+2+i/2.0f) / 2, 0.5f + cos(time*2-2+i/2.0f) / 2));
+			}
 			FunShader->setVec3("color", function[i]->color);
 			function[i]->Draw();
 		}
