@@ -299,14 +299,14 @@ void Function::SimplifyFunction() {
 			if (i > 0 && (function[i - 1] == ')' || (function[i - 1] >'0'&& function[i - 1] < '9'))) {
 				SimplifiedValue[j] = MULTIPLICATION;
 				SimplifiedType[j] = OPERATOR;
-				j++,i++;
+				j++;
 				SimplifiedValue[j] = 0;
 				SimplifiedType[j] = VARIABLE;
 			}
 			else if (i <= function.size() && (function[i + 1] == '(' || (function[i + 1] > '0' && function[i + 1] < '9'))) {
 				SimplifiedValue[j] = 0;
 				SimplifiedType[j] = VARIABLE;
-				j++,i++;
+				j++;
 				SimplifiedValue[j] = MULTIPLICATION;
 				SimplifiedType[j] = OPERATOR;
 
@@ -349,6 +349,7 @@ void Function::SimplifyFunction() {
 
 		}
 	}
+	for (int i{}; i < function.size(); i++)std::cout << SimplifiedType[i]<<" ";
 	RPNLength = j;
 	for (int i = 0; i <= j; i++) { // remove excesive brackets
 		if (SimplifiedType[i] == NUMBER || SimplifiedType[i] == VARIABLE) {
