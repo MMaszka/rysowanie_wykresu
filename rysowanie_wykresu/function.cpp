@@ -349,7 +349,7 @@ void Function::SimplifyFunction() {
 
 		}
 	}
-	for (int i{}; i < function.size(); i++)std::cout << SimplifiedType[i]<<" ";
+	//for (int i{}; i < function.size(); i++)std::cout << SimplifiedType[i]<<" ";
 	RPNLength = j;
 	for (int i = 0; i <= j; i++) { // remove excesive brackets
 		if (SimplifiedType[i] == NUMBER || SimplifiedType[i] == VARIABLE) {
