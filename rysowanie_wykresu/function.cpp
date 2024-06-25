@@ -9,10 +9,10 @@ Operators operators;
 
 Function::Function(std::string fun, App_info info):
 	app_info(info),
-	SimplifiedType(new int[fun.size()] {}),
-	SimplifiedValue(new float[fun.size()] {}),
-	RPNType(new int[fun.size()] {}),
-	RPNValue(new float[fun.size()] {}),
+	SimplifiedType(new int[std::max(int(fun.size()),3)] {}), // ensures than table size is larger or equal to 3
+	SimplifiedValue(new float[std::max(int(fun.size()), 3)] {}),
+	RPNType(new int[std::max(int(fun.size()), 3)] {}),
+	RPNValue(new float[std::max(int(fun.size()), 3)] {}),
 	functionString(fun) 
 {
 	test = fun;
@@ -127,6 +127,8 @@ bool Function::CheckFunction() {
 }
 
 
+
+
 void Function::CalculateFunction() {
 
 	auto start = std::chrono::high_resolution_clock::now();
@@ -136,7 +138,8 @@ void Function::CalculateFunction() {
 	auto totalTime2 = duration.count();
 
 	double y{}, x{};
-	int point_number = 0;
+	point_number = 0;
+
 	double interval = 1.0 / number_of_points; // distance between points
 
 	std::vector<int> intarr(number_of_points);
@@ -144,46 +147,36 @@ void Function::CalculateFunction() {
 
 	glm::mat4 point = glm::mat4(1.0f);
 
-	//--------------TESTING AREA 
-	///*
+	
+	
+	
+
+	// this variable depends on camera position, windows size, zoom and number of points 
+	xPlaneSpacing = (*app_info.width / float(*app_info.height)) * 2 / app_info.GetZoom() * (1.0f / number_of_points);
+	xPlaneShift = position.x * number_of_points * (1.0f / number_of_points);
+
+	x = (-number_of_points/2)*xPlaneSpacing - xPlaneShift; // caluculate x position - depends on camera position and zoom
 	
 	start = std::chrono::high_resolution_clock::now();
+
 	for (auto& i : intarr) {
-		auto start2 = std::chrono::high_resolution_clock::now();
-		int a = i - number_of_points / 2;
-		//point = glm::mat4(1.0f);
-		auto stop2 = std::chrono::high_resolution_clock::now();
-		auto duration2 = std::chrono::duration_cast<std::chrono::microseconds> (stop2 - start2);
-		totalTime2 += duration2.count();
-	};
 
-	stop = std::chrono::high_resolution_clock::now();
-	duration = std::chrono::duration_cast<std::chrono::microseconds> (stop - start);
-	totalTime += duration.count();
-	std::cout << "\nTIME-empty( ms ) :" << totalTime / 1000.0f;
-	std::cout << "\nTIME-empty-inside( ms ) :" << totalTime2 / 1000.0f;
+		point[3]=glm::vec4(0.0f,0.0f,0.0f,1.0f);
+		x += xPlaneSpacing; // move x to the right - based od screen width
 
-	totalTime2 = 0;
-	//*/
-	//----------------------
-	
-	start = std::chrono::high_resolution_clock::now();
-	
-	for (auto& i : intarr) {
-		auto start2 = std::chrono::high_resolution_clock::now();
-
-		point = glm::mat4(1.0f);
-		x = (i * (*app_info.width / float(*app_info.height)) * 2 / app_info.GetZoom() - position.x * number_of_points) * interval; // caluculate x position - depends on camera position and zoom
 		y = CalculateRPN(x);
+
+		/*
 		point = glm::translate(point, glm::vec3(
 			(x  + position.x) * app_info.GetZoom()+0.5,
 			(y  + position.y) * app_info.GetZoom(),
 			0.0f));
-		pointMatrices[point_number++] = point; // put y into instance matrix
+		*/
+		point[3] = glm::vec4((x + position.x) * app_info.GetZoom() + 0.5, (y + position.y)* app_info.GetZoom(),0.0f,1.0f);
 
-		auto stop2 = std::chrono::high_resolution_clock::now();
-		auto duration2 = std::chrono::duration_cast<std::chrono::microseconds> (stop2 - start2);
-		totalTime2 += duration2.count();
+
+
+		pointMatrices[point_number++] = point; // put y into instance matrix
 	}
 
 	stop = std::chrono::high_resolution_clock::now();
@@ -196,13 +189,13 @@ void Function::CalculateFunction() {
 	
 	
 
-	system("cls");
+	//system("cls");
 	std::cout << "\nTIME( ms ) :" << totalTime / 1000.0f;
-	std::cout << "\nTIME_inside( ms ) :" << totalTime2 / 1000.0f;
 	
 	
 
 }
+
 
 
 void Function::CreateBuffers() {
@@ -365,7 +358,7 @@ void Function::SimplifyFunction() {
 				SimplifiedType[i - 1] = 0;
 				SimplifiedType[i + 1] = 0;
 				//std::cout << "removing brackets\n";
-				RPNLength--;
+				RPNLength-=2;
 			}
 		}
 	}
@@ -381,7 +374,18 @@ void Function::SimplifyFunction() {
 		if (SimplifiedType[i] == BRACKET_CLOSE || SimplifiedType[i] == BRACKET_OPEN)RPNLength--;
 	}
 	SimplifiedLength = j;
-	//std::cout << "Function Length: " << RPNLength << "\n";
+	
+	// if user gives only one number/varaible - add 0
+	// this ensures that the rest of the code will execute correctly 
+	if (SimplifiedLength == 1) {
+		SimplifiedType[1] = OPERATOR;
+		SimplifiedValue[1] = ADDITION;
+		SimplifiedType[2] = NUMBER;
+		SimplifiedLength = 3;
+		RPNLength = 3;
+	}
+	std::cout << "Function Length: " << RPNLength << "\n";
+	std::cout << "Function Length: " << SimplifiedLength << "\n";
 }
 
 void Function::ToRPN() {
@@ -594,6 +598,8 @@ void Function::ToRPN() {
 		}
 
 	}
+	RPNTypeCopy = new int[RPNLength + 1] {};
+	RPNValueCopy = new float[RPNLength + 1] {};
 
 }
 
@@ -602,24 +608,19 @@ float Function::CalculateRPN(float x) {
 	int size = RPNLength - 1;
 	float y{};
 	int numbers{};
-	int* Type = new int[RPNLength] {};
-	float* Value = new float[RPNLength] {};
 
-	memcpy(Type, RPNType, (RPNLength + 1) * sizeof(int));
-	memcpy(Value, RPNValue, (RPNLength + 1) * sizeof(float));
+	memcpy(RPNTypeCopy, RPNType, (RPNLength + 1) * sizeof(int));
+	memcpy(RPNValueCopy, RPNValue, (RPNLength + 1) * sizeof(float));
 
 	for (int i = 0; i < size; i++) { // substitute the given value for x
-		if (Type[i] == VARIABLE) {
-			Type[i] = NUMBER;
-			Value[i] = x;
+		if (RPNTypeCopy[i] == VARIABLE) {
+			RPNTypeCopy[i] = NUMBER;
+			RPNValueCopy[i] = x;
 		}
 	}
 	
-	y = solve(Type, Value, RPNLength - 1);
+	y = solve(RPNTypeCopy, RPNValueCopy, RPNLength - 1);
 	
-
-	delete[] Type;
-	delete[] Value;
 
 	return y;
 }
@@ -629,7 +630,7 @@ float Function::solve(int Type[], float Value[], int size) {
 	if (Value[size] > 200 && Type[size - 1] == OPERATOR) { // check group two
 		int stepsDone{};
 		int operatorRange{};
-		for (int steps = 1; steps > 0; steps--) { // subdivide operation
+		for (int steps = 1; steps > 0; --steps) { // subdivide operation
 			operatorRange--;
 			if (Type[size - stepsDone - 1] == OPERATOR) {
 				if (Type[size - stepsDone - 1] == OPERATOR && Value[size - stepsDone - 1] > 200) {
@@ -645,6 +646,7 @@ float Function::solve(int Type[], float Value[], int size) {
 			//std::cout << "steps done: " << stepsDone << " and: " << steps << " still remaining\n";
 		}
 		RightArgument = solve(Type + size - stepsDone, Value + size - stepsDone, stepsDone - 1);
+
 		if (Type[size - stepsDone - 1] == OPERATOR) {
 			LeftArgument = solve(Type, Value, size - stepsDone - 1);
 		}
@@ -691,16 +693,176 @@ float Function::solve(int Type[], float Value[], int size) {
 	case(SIN):
 		y = sin(LeftArgument);
 		break;
+	case(COS):
+		y = cos(LeftArgument);
+		break;
+	case(TAN):
+		y = tan(LeftArgument);
+		break;
+	case(COT):
+		y = tan(M_PI_2 - LeftArgument); //cot
+		break;
+	case(ARCSIN):
+		y = asin(LeftArgument);
+		break;
+	case(ARCCOS):
+		y = acos(LeftArgument);
+		break;
+	case(ARCTAN):
+		y = atan(LeftArgument);
+		break;
+	case(ARCCOT):
+		y = atan(1.0f/LeftArgument); // arccot
+		break;
+	case(LG):
+		y = log10(LeftArgument);
+		break;
+	case(LN):
+		y = log(LeftArgument);
+		break;
+	
 
 	default:
 		break;
 	}
 
-	/*
-	std::cout << "current equation size: " << size << " with y = " << y << " ( f(x) = ";
-	for (int i{}; i <= size; i++)std::cout << Value[i] << " ";
-	std::cout << " )\n";
-	*/
+	
+	//std::cout << "current equation size: " << size << " with y = " << y << " ( f(x) = ";
+	//for (int i{}; i <= size; i++)std::cout << Value[i] << " ";
+	//std::cout << " )\n";
+	
 
 	return y;
+}
+
+// calculating points - saves 20-25% of time compared to loops
+void Function::RecursivePointCalc(float X, int a) {
+	if (a > 1) {
+		int it = pow(10, precisionDigits - a);
+		RecursivePointCalc(X, a-1);
+		RecursivePointCalc(X+1*it*xPlaneSpacing, a-1);
+		RecursivePointCalc(X+2*it*xPlaneSpacing, a-1);
+		RecursivePointCalc(X+3*it*xPlaneSpacing, a-1);
+		RecursivePointCalc(X+4*it*xPlaneSpacing, a-1);
+		RecursivePointCalc(X+5*it*xPlaneSpacing, a-1);
+		RecursivePointCalc(X+6*it*xPlaneSpacing, a-1);
+		RecursivePointCalc(X+7*it*xPlaneSpacing, a-1);
+		RecursivePointCalc(X+8*it*xPlaneSpacing, a-1);
+		RecursivePointCalc(X+9*it*xPlaneSpacing, a-1);
+	}
+	else {
+		int x = X;
+	// X 1
+		glm::mat4 point = glm::mat4(1.0f);
+		x += xPlaneSpacing; // move x to the right - based od screen width
+
+		float y = CalculateRPN(x);
+		point = glm::translate(point, glm::vec3(
+			(x + position.x) * app_info.GetZoom() + 0.5,
+			(y + position.y) * app_info.GetZoom(),
+			0.0f));
+
+		pointMatrices[point_number++] = point; // put y into instance matrix
+	// X 2
+		point = glm::mat4(1.0f);
+		x += xPlaneSpacing; // move x to the right - based od screen width
+
+		y = CalculateRPN(x);
+		point = glm::translate(point, glm::vec3(
+			(x + position.x) * app_info.GetZoom() + 0.5,
+			(y + position.y) * app_info.GetZoom(),
+			0.0f));
+
+		pointMatrices[point_number++] = point; // put y into instance matrix
+	// X 3
+		point = glm::mat4(1.0f);
+		x += xPlaneSpacing; // move x to the right - based od screen width
+
+		y = CalculateRPN(x);
+		point = glm::translate(point, glm::vec3(
+			(x + position.x) * app_info.GetZoom() + 0.5,
+			(y + position.y) * app_info.GetZoom(),
+			0.0f));
+
+		pointMatrices[point_number++] = point; // put y into instance matrix
+	// X 4
+		point = glm::mat4(1.0f);
+		x += xPlaneSpacing; // move x to the right - based od screen width
+
+		y = CalculateRPN(x);
+		point = glm::translate(point, glm::vec3(
+			(x + position.x) * app_info.GetZoom() + 0.5,
+			(y + position.y) * app_info.GetZoom(),
+			0.0f));
+
+		pointMatrices[point_number++] = point; // put y into instance matrix
+	// X 5
+		point = glm::mat4(1.0f);
+		x += xPlaneSpacing; // move x to the right - based od screen width
+
+		y = CalculateRPN(x);
+		point = glm::translate(point, glm::vec3(
+			(x + position.x) * app_info.GetZoom() + 0.5,
+			(y + position.y) * app_info.GetZoom(),
+			0.0f));
+
+		pointMatrices[point_number++] = point; // put y into instance matrix
+	// X 6
+		point = glm::mat4(1.0f);
+		x += xPlaneSpacing; // move x to the right - based od screen width
+
+		y = CalculateRPN(x);
+		point = glm::translate(point, glm::vec3(
+			(x + position.x) * app_info.GetZoom() + 0.5,
+			(y + position.y) * app_info.GetZoom(),
+			0.0f));
+
+		pointMatrices[point_number++] = point; // put y into instance matrix
+	// X 7
+		point = glm::mat4(1.0f);
+		x += xPlaneSpacing; // move x to the right - based od screen width
+
+		y = CalculateRPN(x);
+		point = glm::translate(point, glm::vec3(
+			(x + position.x) * app_info.GetZoom() + 0.5,
+			(y + position.y) * app_info.GetZoom(),
+			0.0f));
+
+		pointMatrices[point_number++] = point; // put y into instance matrix
+	// X 8
+		point = glm::mat4(1.0f);
+		x += xPlaneSpacing; // move x to the right - based od screen width
+
+		y = CalculateRPN(x);
+		point = glm::translate(point, glm::vec3(
+			(x + position.x) * app_info.GetZoom() + 0.5,
+			(y + position.y) * app_info.GetZoom(),
+			0.0f));
+
+		pointMatrices[point_number++] = point; // put y into instance matrix
+	// X 9
+		point = glm::mat4(1.0f);
+		x += xPlaneSpacing; // move x to the right - based od screen width
+
+		y = CalculateRPN(x);
+		point = glm::translate(point, glm::vec3(
+			(x + position.x) * app_info.GetZoom() + 0.5,
+			(y + position.y) * app_info.GetZoom(),
+			0.0f));
+
+		pointMatrices[point_number++] = point; // put y into instance matrix
+	// X 10
+		point = glm::mat4(1.0f);
+		x += xPlaneSpacing; // move x to the right - based od screen width
+
+		y = CalculateRPN(x);
+		point = glm::translate(point, glm::vec3(
+			(x + position.x) * app_info.GetZoom() + 0.5,
+			(y + position.y) * app_info.GetZoom(),
+			0.0f));
+		
+		pointMatrices[point_number++] = point; // put y into instance matrix
+	
+		//std::cout << '\n' << point_number;
+	}
 }

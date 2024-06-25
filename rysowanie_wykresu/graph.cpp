@@ -54,32 +54,14 @@ void Graph::Run(){
 		axis.OnUpdate();
 		axis.Draw();
 
-
-
-		auto start = std::chrono::high_resolution_clock::now();
-		auto stop = std::chrono::high_resolution_clock::now();
-		auto FunCalcTime = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-		double totalTime{};
 		// - Functions
 		FunShader->use();
 		// multithreading can be implemented here
 			if (last_position != position) { // position is also changed while zooming
 				for (int i = 0; i < function.size(); i++) {
-					
-
 					function[i]->position = position;
-
-					start = std::chrono::high_resolution_clock::now();
 					function[i]->CalculateFunction();
-					stop = std::chrono::high_resolution_clock::now();
-
 					function[i]->ModifyInstances();
-
-
-					
-					FunCalcTime = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-
-					totalTime += FunCalcTime.count();
 				}
 			}
 		last_position = position;
@@ -88,7 +70,7 @@ void Graph::Run(){
 		
 		if (function.size() > 0) {
 			//system("cls");
-			std::cout << "\ntime( ms ) :" << totalTime / 1000.0f;
+			//std::cout << "\ntime( ms ) :" << totalTime / 1000.0f;
 		}
 
 
@@ -100,14 +82,6 @@ void Graph::Run(){
 		window->OnResize();
 		Camera_controller.OnUpdate();
 		FunShader->setMat4("projection", Camera_controller.Camera.projection);
-
-		/*
-		if (function.size()>0) {
-			system("cls");
-			std::cout << "Time spend on:"
-				<< "\nCalculating:" << FunCalcTime.count() / 1000000.0f;
-		}
-		*/
 
 		glfwSwapBuffers(window->window);
 		glfwPollEvents();
