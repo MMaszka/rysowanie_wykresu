@@ -36,19 +36,19 @@ Function::Function(std::string fun, App_info info):
 // --CHECK FUNCTION
 
 
-// letters in the input
+// Funkcje sprawdzające poprawność wyrażenia
 bool containsInvalidLetters(const std::string& str) {
 	 std::regex valid_chars(R"((\d+|[xyz]|\+|\-|\*|\/|\^|\(|\)|\s||sin|cos|tan|log|sqrt|arcsin|arccos|arctan|arccot|lg|ln|[\d.]+)+)");
 	return !std::regex_match(str, valid_chars);
 }
 
-// double symbols or multiple assignments
+//Funkcja sprawdzająca podwójne symbole
 bool containsDoubleSymbolsOrMultipleAssignments(const std::string& str) {
 	std::regex double_symbols_or_multiple_assignments(R"((\+\+|--|==|\*\*|//|\^\^|\(\([^()]+\)\))|(?:[xyz]=.*[xyz]=))");
 	return std::regex_search(str, double_symbols_or_multiple_assignments);
 }
 
-// Check for invalid function calls
+// Funkcja sprawdzająca nieprawidłowe wywołania funkcji
 bool containsInvalidFunctionCalls(const std::string& str) {
 	std::regex function_calls(R"((sin|cos|tan|log|sqrt)\([xyz\d\+\-\*\/\^\(\)]+\))");
 	std::smatch match;
@@ -61,7 +61,7 @@ bool containsInvalidFunctionCalls(const std::string& str) {
 		temp_str.find("sqrt") != std::string::npos;
 }
 
-// Check for invalid operator sequences
+// Funkcja sprawdzająca nieprawidłowe sekwencje operatorów
 bool containsInvalidOperatorSequences(const std::string& str) {
 	std::regex invalid_operator_sequences(R"((\*/|/\*|\*\*|//|\^\^|\+\*|\+\-|\+\^|\+\+|\*\+|\*/|\*^|-\*|-\+|-\/|-\^|\/\+|\/\*|\/\-|\/\^|\^\+|\^\*|\^\/|\^\-|\*\(|\/\(|\+\())");
 	return std::regex_search(str, invalid_operator_sequences);
@@ -73,25 +73,25 @@ bool Function::CheckFunction() {
 
     std::string str=functionString;
 
-    // Check for letters
+    // Sprawdza, czy wprowadzony tekst zawiera tylko dozwolone znaki
     if (containsInvalidLetters(str)) {
         std::cout << "Error." << std::endl;
         return 1;
     }
 
-    // Check for double symbols or multiple assignments
+    // Sprawdza, czy nie ma podwójnych symboli
     if (containsDoubleSymbolsOrMultipleAssignments(str)) {
         std::cout << "Error: Double symbols or multiple assignments." << std::endl;
         return 1;
     }
 
-    // Check for invalid function calls
+    // Sprawdza, czy wywołania funkcji są poprawne
     if (containsInvalidFunctionCalls(str)) {
         std::cout << "Error: Invalid function call." << std::endl;
         return 1;
     }
 
-    // Check for invalid operator sequences
+    // Sprawdza, czy nie ma nieprawidłowych sekwencji operatorów
     if (containsInvalidOperatorSequences(str)) {
         std::cout << "Error: Invalid operator sequence." << std::endl;
         return 1;
@@ -100,7 +100,7 @@ bool Function::CheckFunction() {
     // Remove spaces
     str.erase(std::remove(str.begin(), str.end(), ' '), str.end());
 
-    // Check for parentheses
+    // Sprawdza nawiasy
     int parentheses_count = 0;
     for (char ch : str) {
         if (ch == '(') {
