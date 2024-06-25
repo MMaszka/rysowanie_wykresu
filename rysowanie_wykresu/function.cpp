@@ -44,7 +44,7 @@ bool containsInvalidLetters(const std::string& str) {
 
 // double symbols or multiple assignments
 bool containsDoubleSymbolsOrMultipleAssignments(const std::string& str) {
-	std::regex double_symbols_or_multiple_assignments(R"((\+\+|--|==|\*\*|//|\^\^|\(\()|(?:[xyz]=.*[xyz]=))");
+	std::regex double_symbols_or_multiple_assignments(R"((\+\+|--|==|\*\*|//|\^\^|\(\([^()]+\)\))|(?:[xyz]=.*[xyz]=))");
 	return std::regex_search(str, double_symbols_or_multiple_assignments);
 }
 
