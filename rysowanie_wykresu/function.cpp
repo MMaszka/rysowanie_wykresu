@@ -527,7 +527,7 @@ void Function::ToRPN() {
 
 						SimplifiedType[OperatorPosition[j][bufferLevel] - 1] = 0; // clear Simplified function
 						SimplifiedValue[OperatorPosition[j][bufferLevel] - 1] = 0;
-						std::cout << "left  argument (" << RPNValue[RPNSize] << ") saved in:" << RPNSize << "\n";
+						//std::cout << "left  argument (" << RPNValue[RPNSize] << ") saved in:" << RPNSize << "\n";
 						if (outputValue == true)RPNSize++;
 					}
 
@@ -546,7 +546,7 @@ void Function::ToRPN() {
 					SimplifiedType[OperatorPosition[j][bufferLevel] + 1] = 0; // clear Simplified function
 					SimplifiedValue[OperatorPosition[j][bufferLevel] + 1] = 0;
 
-					std::cout << "right argument (" << RPNValue[RPNSize] << ") saved in:" << RPNSize << "\n";
+					//std::cout << "right argument (" << RPNValue[RPNSize] << ") saved in:" << RPNSize << "\n";
 					length++;
 				}
 			}
@@ -574,13 +574,13 @@ void Function::ToRPN() {
 			readyToOutput = 0;
 		}
 
-		///*
-		//std::cout << "current buffer: " << bufferLevel << " stores : ";
+		/*
+		std::cout << "current buffer: " << bufferLevel << " stores : ";
 		for (int j = 0; j < 4; j++) {
 			if (OperatorBuffer[j][bufferLevel] != 0)std::cout << SimplifiedValue[OperatorPosition[j][bufferLevel]] << " ";
 		}
 		std::cout << '\n';
-		//*/
+		*/
 
 		if (SimplifiedType[i] == BRACKET_CLOSE) {
 			SimplifiedType[i] = 0;

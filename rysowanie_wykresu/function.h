@@ -34,7 +34,7 @@ private:
 	int vertices_size{6}, indices_size{1};
 	unsigned int VAO{}, VBO{}, EBO{}, sizeEBO{}, sizeVAO{}, buffer{};
 
-	int number_of_points = 1000; // number of points per function - can't be less than 10
+	int number_of_points = 20000; // number of points per function - can't be less than 10
 	int precisionDigits = static_cast<int>(std::log10(number_of_points)) + 1; // number of digits in nuber_of_points
 	int precision = number_of_points / static_cast<int>(std::pow(10, precisionDigits - 1)); // first digit in number_of_points
 
